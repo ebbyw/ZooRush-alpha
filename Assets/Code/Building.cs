@@ -23,7 +23,7 @@ public class Building : GameElement {
 	 *  8 - Hot Dog Stand
 	 */ 
 	
-	public void Create(){
+	public override void Create(){
 		touched = false;
 		atlasRects = GameSetUp.buildingRects;
 		if(elementType == 7){
@@ -35,6 +35,7 @@ public class Building : GameElement {
 		}
 		MaterialSetUp();
 		ChangeSprite(elementType);
+		spritesheet = GameSetUp.buildingAtlas;
 		renderer.sharedMaterial.SetTexture ("_MainTex", GameSetUp.buildingAtlas);
 	}
 	

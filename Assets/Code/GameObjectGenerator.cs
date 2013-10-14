@@ -26,6 +26,7 @@ public class GameObjectGenerator : MonoBehaviour {
 			GameObject Elementpointer = Instantiate(element,position,Quaternion.identity) as GameObject;
 			Elementpointer.tag = elementType;
 			objectsInField++;
+			Elementpointer.GetComponent<GameElement>().Create();
 		}
 		else{
 			DestroyAllOutOfRange();

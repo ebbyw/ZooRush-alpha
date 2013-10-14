@@ -12,6 +12,7 @@ public class GameElement : MonoBehaviour {
 	protected Component[] filters; // used to access the uv coordinates of the texture atlas
 	protected Vector2[] uva; // stores the uv coordinates of the entire texture itself
 	protected Rect[] atlasRects;
+	protected Texture2D spritesheet;
 	
 	//Gameplay related variables
 	protected int elementType; //See end of file to see how the element type system is organized
@@ -20,10 +21,14 @@ public class GameElement : MonoBehaviour {
 	
 	//Animation related variables
 	public bool animateable; // true if the element has animation frames, false otherwise
-	private bool animating; //if the object is currently switching from one sprite to another
+	protected bool animating; //if the object is currently switching from one sprite to another
 	private float fps; // the frames per second for the element's animation
 	protected int currentFrame; // the current animation frame the element is on
 	protected bool forward; // whether we are in the forward or reverse segment of the animation sequence
+	
+	public virtual void Create(){
+		
+	}
 	
 	public int getType(){
 		return elementType;
@@ -137,5 +142,33 @@ public class GameElement : MonoBehaviour {
 								   (uva [k].y * atlasRects [j].height) + atlasRects [j].y);
 		}
 		((MeshFilter)filters [0]).mesh.uv = uvb;
+	}
+	
+	public IEnumerator ChangeSprite (float time)
+	{
+		int j = elementType;
+		animating = true;
+		Vector2[] uvb;
+		uvb = new Vector2[uva.Length];
+		for (int k=0; k < uva.Length; k++) {
+			uvb [k] = new Vector2 ((uva [k].x * atlasRects [j].width) + atlasRects [j].x, 
+								   (uva [k].y * atlasRects [j].height) + atlasRects [j].y);
+		}
+		yield return new WaitForSeconds(time);
+		((MeshFilter)filters [0]).mesh.uv = uvb;
+		j++;
+		for (int k=0; k < uva.Length; k++) {
+			uvb [k] = new Vector2 ((uva [k].x * atlasRects [j].width) + atlasRects [j].x, 
+								   (uva [k].y * atlasRects [j].height) + atlasRects [j].y);
+		}
+		yield return new WaitForSeconds(time);
+		((MeshFilter)filters [0]).mesh.uv = uvb;
+		animating = false;
+	}
+	
+	public void ResetAlpha ()
+	{
+		Color originalColour = renderer.material.color;
+		renderer.sharedMaterial.color = new Color (originalColour.r, originalColour.g, originalColour.b, 1f);
 	}
 }
