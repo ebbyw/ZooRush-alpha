@@ -1,14 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Building : MonoBehaviour {
-	
-	public int buildingType;
-	public int numBuildings;
-	private Material buildingMaterial;
-	private Component[] filters;
-	private Vector2[] uva;
-	private bool touched = false;
+public class Building : GameElement {
 	
 	/** Building Spritesheet:
 	 *  Building textures are stored in the GameSetUp.buildingAtlas texture,
@@ -28,34 +21,29 @@ public class Building : MonoBehaviour {
 	 *  6 - Doctor Office (Doors Closed)
 	 *  7 - Doctor Office (Doors Open)
 	 *  8 - Hot Dog Stand
-	 *  9 - Sign 1 (Safari Trail)
-	 *  10 - Sign 2 (Butterfly Garden)
 	 */ 
 	
-	void Start () {
-		numBuildings = GameSetUp.buildingRects.Length;
-		buildingType = Random.Range(0,numBuildings);
-		if(buildingType == 7){
-			buildingType = 6;
+	public void Create(){
+		touched = false;
+		atlasRects = GameSetUp.buildingRects;
+		if(elementType == 7){
+			elementType = 6;
 		}
-		buildingMaterial = new Material (Shader.Find ("Transparent/VertexLit"));
-		filters = GetComponentsInChildren (typeof(MeshFilter));
-		filters [0].gameObject.renderer.sharedMaterial = buildingMaterial;
-		uva = (Vector2[])(((MeshFilter)filters [0]).mesh.uv);
-		ChangeSprite (buildingType);//Specific to current test, must create generic form
+		if(elementType == 6){
+			transform.localScale = new Vector3(2f,2f,1f);
+			transform.localPosition += new Vector3(0f,1.91f-1.5f,0f);
+		}
+		MaterialSetUp();
+		ChangeSprite(elementType);
 		renderer.sharedMaterial.SetTexture ("_MainTex", GameSetUp.buildingAtlas);
-	}
-	
-	void Update () {
-		//Add Building Animation for character interaction
 	}
 	
 	private void OnTriggerEnter( Collider other ){//detects if the Character has touched the Building
 		if(!touched && Character.up){
 			Character.flashing = Character.up;
 			touched = true;
-			if(buildingType == 6){
-				ChangeSprite(buildingType+1);
+			if(elementType == 6){
+				ChangeSprite(elementType+1);
 				GUIHealthBar.healthValue = 100f;
 			}
 		}
@@ -65,20 +53,9 @@ public class Building : MonoBehaviour {
 		if(!touched && Character.up){
 			Character.flashing = Character.up;
 			touched = true;
-			if(buildingType == 6){
-				ChangeSprite(buildingType+1);
+			if(elementType == 6){
+				ChangeSprite(elementType+1);
 			}
 		}
-	}
-	
-	public void ChangeSprite (int j)
-	{
-		Vector2[] uvb;
-		uvb = new Vector2[uva.Length];
-		for (int k=0; k < uva.Length; k++) {
-			uvb [k] = new Vector2 ((uva [k].x * GameSetUp.buildingRects[j].width) + GameSetUp.buildingRects[j].x, 
-								   (uva [k].y * GameSetUp.buildingRects[j].height) + GameSetUp.buildingRects[j].y);
-		}
-		((MeshFilter)filters [0]).mesh.uv = uvb;
 	}
 }

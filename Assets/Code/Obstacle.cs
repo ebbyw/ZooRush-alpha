@@ -11,16 +11,16 @@ public class Obstacle : MonoBehaviour
 	private Vector2[] uva;
 	private bool animating = false; 
 	
-	enum obstacleTypes
-	{
-		Green1,    // Type 0 *** 
-		Green2,    // Type 1
-		Red1,      // Type 2 ***
-		Red2,      // Type 3
-		Yellow1,   // Type 4 ***
-		Yellow2,   // Type 5
-		MAX_OBSTACLE_TYPES
-	}
+	/** Infection Types:
+	 *  Infection types are organized in alphabetical order of the infection 
+	 *  texture file names in the Assets/Resources/Textures/Infections/ directory
+	 * 	0 - Green Infection 1
+	 *  1 - Green Infection 2 (for animation purposes)
+	 *  2 - Red Infection 1
+	 *  3 - Red Infection 2 (for animation purposes)
+	 *  4 - Yellow Infection 1
+	 *  5 - Yellow Infection 2 (for animation purposes)
+	 */
 	
 	void Start ()
 	{

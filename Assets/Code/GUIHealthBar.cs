@@ -14,7 +14,7 @@ public class GUIHealthBar : MonoBehaviour
 	static public bool subtractFromHealthBar;
 	static public int powerUpType;
 	static public int obstacleType;
-	private float[] adderArray = {50f,35f,20f}; // corresponds with powerUp types
+	private float[] adderArray = {35f,20f}; // corresponds with powerUp types
 	private float[] subtractArray = {20f, 20f, 50f, 50f, 35f}; //corresponds with obstacle types
 	
 	enum HealthState
