@@ -14,12 +14,12 @@ using System.Collections;
 	{
 		static public float gridSize = 65f;
 		
-		static String textureDir = "Textures/";
-		static String[] characterDirs = {"Characters/BoyZoo"};
-		static String[] animalDirs = {"Animals/Crocodile","Animals/Tortoise"};
-		static String obstacleDir = "Infections";
-		static String powerUpDir = "PowerUps";
-		static String buildingDir = "Buildings";
+		static string textureDir = "Textures/";
+		static string[] characterDirs = {"Characters/BoyZoo"};
+		static string[] animalDirs = {"Animals/Crocodile","Animals/Tortoise"};
+		static string obstacleDir = "Infections";
+		static string powerUpDir = "PowerUps";
+		static string buildingDir = "Buildings";
 		
 		static public Texture2D[] characterAtlases;
 		static public Texture2D[] animalAtlases;

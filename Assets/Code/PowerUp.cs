@@ -11,16 +11,15 @@ public class PowerUp : MonoBehaviour
 	
 	enum powerUpTypes
 	{
-		OxygenTank,  // Type 0
-		PillBottle,  // Type 1
-		WaterBottle, // Type 2
+		PillBottle,  // Type 0
+		WaterBottle, // Type 1
 		MAX_POWERUP_TYPES
 	};
 	
 	void Start ()
 	{
 		numPowerUps = GameSetUp.powerUpRects.Length;
-		powerUpType = Random.Range(0,3);//Chooses number between 0 and 2
+		powerUpType = Random.Range(0,2);//Chooses number between 0 and 1
 		powerUpMaterial = new Material (Shader.Find ("Transparent/VertexLit"));
 		filters = GetComponentsInChildren (typeof(MeshFilter));
 		filters [0].gameObject.renderer.sharedMaterial = powerUpMaterial;
