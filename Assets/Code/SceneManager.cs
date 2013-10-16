@@ -3,6 +3,8 @@ using System.Collections;
 
 public class SceneManager : MonoBehaviour
 {
+	Animal animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
+		Character characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
 	public float startTime;
 	public float elapsedTime;
 	public float endTime;
@@ -50,7 +52,7 @@ public class SceneManager : MonoBehaviour
 		GUI.skin = myskin;
 		GUI.Box(new Rect(0.1f,0.1f,0.5f*Screen.width,0.1f*Screen.height),new GUIContent("Time: " + ((minutes < 10)?"0":"") + minutes + ":" + ((seconds < 10)?"0":"") + seconds));
 		
-		if (Animal.captured) {
+		if (animalComponent.captured) {
 			if (!waiting) {
 				StartCoroutine (wait ());
 			} else {
@@ -70,7 +72,7 @@ public class SceneManager : MonoBehaviour
 #endif
 			}
 		} else {
-			if (Character.fainted) {
+			if (characterComponent.fainted) {
 				if (!waiting) {
 					StartCoroutine (wait ());
 					

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Character : MonoBehaviour
 {
+	Animal animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
 	public float distanceTraveled;
 	static public int characterValue;
 	private int characterValuePriv = 0;
@@ -49,7 +50,7 @@ public class Character : MonoBehaviour
 	}
 	
 	private bool Moving = false;
-	static public int RowNum;
+ public int RowNum;
 	private int RowNumPriv = 1;
 	private int maxRows = 4;
 	static public bool up;
@@ -60,19 +61,19 @@ public class Character : MonoBehaviour
 	private bool forward = true;
 	private bool waiting = false;
 	static public bool flashing;
-	static public float xPosition;
+	public float xPosition;
 	private bool flashingPriv = false;
 	private Touch touch;
 	private float dragY;
-	static public float RunSpeed;
+	public float RunSpeed;
 	private float RunSpeedPriv = 15f;
 	public float fps = 0.1f;
-	static public bool fainted;
+	public bool fainted;
 	private bool faintedPriv = false;
 	
 	public void FixedUpdate ()
 	{ // All math related functions will occur under Fixed Update in order to insure synchronization and consistency
-		if (!fainted && !Animal.captured) {
+		if (!fainted && !animalComponent.captured) {
 			if (paused) {
 				StartCoroutine (StartSequence (10f));
 				GameObject.Find ("SceneManager").GetComponent<SceneManager> ().startTime = Time.time ;
@@ -118,7 +119,7 @@ public class Character : MonoBehaviour
 	
 	void Update ()
 	{
-		if (!waiting && !fainted && !Animal.captured && !paused) {
+		if (!waiting && !fainted && !animalComponent.captured && !paused) {
 			StartCoroutine (ChangeSprite (runNum, fps));
 			if (runNum == 4 && forward) {
 				runNum--;

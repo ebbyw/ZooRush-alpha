@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 
 public class PowerUpGenerator : GameObjectGenerator {
-	
+	Animal animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
+		Character characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
 	void Start () {
 		numOfObjects = 5;
 		elementType = "powerUp";
@@ -14,8 +15,8 @@ public class PowerUpGenerator : GameObjectGenerator {
 	}
 	
 	void FixedUpdate () {
-		if(!Character.fainted || !Animal.captured){		
-			CreateSceneElement(Random.Range(0,66) + Random.Range(0,11));
+		if(!characterComponent.fainted || !animalComponent.captured){		
+			CreateSceneElement(Random.Range(0,66) + Random.Range(0,11), GameSetUp.powerUpRects, GameSetUp.powerUpAtlas);
 			position.z = Random.Range(0,3)*GameSetUp.gridSize+3;
 		}
 	}

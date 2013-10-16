@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEditor;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -48,16 +49,15 @@ public class LevelEditor : EditorWindow
 	 */
 	
 	private List<GameObject> Buildings = new List<GameObject> ();
-	private List<GameObject> Obstacles = new List<GameObject> ();
-	private List<GameObject> PowerUps = new List<GameObject> ();
-	private List<GameObject> SceneElements = new List<GameObject> ();
 	private int currentCategory;
 	private int currentElement;
 	private string elementName;
 	private string elementComponent;
 	private float lastBuildingXPosition = -2.5f;
 	private int RowNum;
-
+	static public float gridSize = 20f;
+	
+	
 	[MenuItem("Zoo Rush Tools/Level Editor %l")]
 	private static void showEditor ()
 	{
@@ -86,7 +86,7 @@ public class LevelEditor : EditorWindow
 		case 0: //Building Element Category
 			EditorGUILayout.BeginHorizontal ();{
 				EditorGUILayout.PrefixLabel ("Element Type: ");
-				if(currentElement >= GameElementsBuildings.Length){
+				if (currentElement >= GameElementsBuildings.Length) {
 					currentElement = 0;
 				}
 				currentElement = EditorGUILayout.Popup (currentElement, GameElementsBuildings);
@@ -101,7 +101,7 @@ public class LevelEditor : EditorWindow
 		case 1://Obstacle Element Category
 			EditorGUILayout.BeginHorizontal ();{
 				EditorGUILayout.PrefixLabel ("Element Type: ");
-				if(currentElement >= GameElementsObstacles.Length){
+				if (currentElement >= GameElementsObstacles.Length) {
 					currentElement = 0;
 				}
 				currentElement = EditorGUILayout.Popup (currentElement, GameElementsObstacles);
@@ -120,7 +120,7 @@ public class LevelEditor : EditorWindow
 		case 2://Power Up Element Category
 			EditorGUILayout.BeginHorizontal ();{
 				EditorGUILayout.PrefixLabel ("Element Type: ");
-				if(currentElement >= GameElementsPowerUps.Length){
+				if (currentElement >= GameElementsPowerUps.Length) {
 					currentElement = 0;
 				}
 				currentElement = EditorGUILayout.Popup (currentElement, GameElementsPowerUps);
@@ -137,7 +137,7 @@ public class LevelEditor : EditorWindow
 		case 3://Scene Element Category
 			EditorGUILayout.BeginHorizontal ();{
 				EditorGUILayout.PrefixLabel ("Element Type: ");
-				if(currentElement >= ElementCategories.Length){
+				if (currentElement >= ElementCategories.Length) {
 					currentElement = 0;
 				}
 				currentElement = currentCategory = EditorGUILayout.Popup (currentElement, ElementCategories);
@@ -159,9 +159,6 @@ public class LevelEditor : EditorWindow
 	
 	void CreateGameElement ()
 	{
-		GameObject newObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
-		newObject.name = elementName;
-		
 		//Adds respective components that correspond with the element's category and type and then adds that item to the list:
 		switch (elementComponent) {
 		case "Building":
@@ -175,51 +172,13 @@ public class LevelEditor : EditorWindow
 			 * Standard transform scale of building objects is (x,y,z) = (1,1,1)
 			 * except in the case of hospitals, then the scale is (x,y,z) = (2,2,1) and the position is (xpos,1.91,47)
 			 */ 
-			Building objectComponent = newObject.AddComponent (elementComponent) as Building;
-			int BuildingType = currentElement;
-			if(BuildingType == 7){//aligning types with Building object type handling
-				BuildingType = 8;
-			}
-			objectComponent.ChangeElementType(BuildingType);
 			
-			if (CheckForEmptyBuildingSpots ()) {
-				int index = 0;
-				foreach (var Building in Buildings) {
-					if (Building == null) {
-						break;
-					}
-					index++;
-				}
-				Debug.Log ("Building " + index + " was Deleted!");
-				if(index == 0){
-					lastBuildingXPosition = -2.5f;
-				}
-				else{
-					lastBuildingXPosition = Buildings[index-1].transform.localPosition.x + 
-											Buildings[index-1].transform.localScale.x + 
-											((BuildingType == 6 && Buildings[index-1].GetComponent<Building>().getType() !=6 )?0.5f:0f) + 
-											((BuildingType != 6 && Buildings[index-1].GetComponent<Building>().getType() == 6)?(-0.5f):0f);
-				}
-				Buildings [index] = newObject;
-				newObject.transform.localPosition = new Vector3(lastBuildingXPosition,1.5f,47f);
-			} else {
-				Buildings.Add (newObject);
-				newObject.transform.localPosition = new Vector3(lastBuildingXPosition,1.5f,47f);
-				lastBuildingXPosition = Buildings[Buildings.Count -1].transform.localPosition.x + Buildings[Buildings.Count -1].transform.localScale.x;
-			}
-			objectComponent.Create();
 			break;
 		case "Obstacle":
-			newObject.AddComponent (elementComponent);
-			Obstacles.Add (newObject);
 			break;
 		case "PowerUp":
-			newObject.AddComponent (elementComponent);
-			PowerUps.Add (newObject);
 			break;
 		case "Foreground":
-			newObject.AddComponent ("ForegroundItem");
-			SceneElements.Add (newObject);
 			break;
 		case "Sky":
 			break;
@@ -244,6 +203,4 @@ public class LevelEditor : EditorWindow
 		}
 		return false;
 	}
-	
-	
 }

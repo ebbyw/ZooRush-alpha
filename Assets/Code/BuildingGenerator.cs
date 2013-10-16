@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 
 public class BuildingGenerator : GameObjectGenerator {
-	
+	Animal animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
+	GameObject animalPointer = GameObject.FindGameObjectWithTag("animal");
+	Character characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
 	void Start () {
 		numOfObjects = 6;
 		elementType = "building";
@@ -13,8 +15,8 @@ public class BuildingGenerator : GameObjectGenerator {
 	}
 	
 	void FixedUpdate () {
-		if(!Character.fainted || !Animal.captured){		
-			CreateSceneElement(element.transform.localScale.x);
+		if(!characterComponent.fainted || !animalComponent.captured){		
+			CreateSceneElement(element.transform.localScale.x, GameSetUp.buildingRects, GameSetUp.buildingAtlas);
 		}
 	}
 }

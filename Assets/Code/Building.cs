@@ -2,18 +2,13 @@
 using System.Collections;
 
 public class Building : GameElement {
-	
-	/** Building Spritesheet:
-	 *  Building textures are stored in the GameSetUp.buildingAtlas texture,
-	 *  the GameSetUp.buildingRects stores the coordinates of each individual
-	 *  building in the building atlas. 
-	 * 
-	 *  Building Types:
+	public int BuildingType;
+	/** Building Types:
 	 *  Building types are organized in alphabetical order of the building 
 	 *  texture file names in the Assets/Resources/Textures/Buildings/ directory
 	 * 
 	 * 	0 - Balloon Stand
-	 *  1 - Cage 1 (Aviary Cage)
+	 *  1 - Cage 1 (Round Top Cage)
 	 *  2 - Cage 2 (Swamp/Wetlands)
 	 *  3 - Cage 3 (Lake)
 	 *  4 - Cage 4 (Plains)
@@ -23,20 +18,29 @@ public class Building : GameElement {
 	 *  8 - Hot Dog Stand
 	 */ 
 	
-	public override void Create(){
+	void Start( ){
 		touched = false;
-		atlasRects = GameSetUp.buildingRects;
+		elementType = BuildingType;
 		if(elementType == 7){
 			elementType = 6;
 		}
 		if(elementType == 6){
-			transform.localScale = new Vector3(2f,2f,1f);
-			transform.localPosition += new Vector3(0f,1.91f-1.5f,0f);
+			transform.localScale = new Vector3(3f,3f,1f);
 		}
-		MaterialSetUp();
-		ChangeSprite(elementType);
-		spritesheet = GameSetUp.buildingAtlas;
-		renderer.sharedMaterial.SetTexture ("_MainTex", GameSetUp.buildingAtlas);
+		renderer.material = materials[0];
+	}
+	
+	void Update(){
+		Vector3 defaultPosition = transform.localPosition;
+		if(elementType == 6){
+			defaultPosition.y = 1.933f;
+			defaultPosition.z = 5f;
+		}
+		else{
+			defaultPosition.y = 1.7f;
+			defaultPosition.z = 4f;
+		}
+		transform.localPosition = defaultPosition;	
 	}
 	
 	private void OnTriggerEnter( Collider other ){//detects if the Character has touched the Building
@@ -44,7 +48,8 @@ public class Building : GameElement {
 			Character.flashing = Character.up;
 			touched = true;
 			if(elementType == 6){
-				ChangeSprite(elementType+1);
+				renderer.material = materials[1];
+				//Add Character Animation code somewhere here
 				GUIHealthBar.healthValue = 100f;
 			}
 		}
@@ -55,7 +60,9 @@ public class Building : GameElement {
 			Character.flashing = Character.up;
 			touched = true;
 			if(elementType == 6){
-				ChangeSprite(elementType+1);
+				renderer.material = materials[1];
+				//Add Character Animation code somewhere here
+				GUIHealthBar.healthValue = 100f;
 			}
 		}
 	}

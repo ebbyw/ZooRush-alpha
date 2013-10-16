@@ -7,12 +7,7 @@ using System.Collections;
  */ 
 public class GameElement : MonoBehaviour {
 	
-	//Texture related variables
-	protected Material material; //The game element's mesh material
-	protected Component[] filters; // used to access the uv coordinates of the texture atlas
-	protected Vector2[] uva; // stores the uv coordinates of the entire texture itself
-	protected Rect[] atlasRects;
-	protected Texture2D spritesheet;
+	public Material[] materials;
 	
 	//Gameplay related variables
 	protected int elementType; //See end of file to see how the element type system is organized
@@ -22,20 +17,12 @@ public class GameElement : MonoBehaviour {
 	//Animation related variables
 	public bool animateable; // true if the element has animation frames, false otherwise
 	protected bool animating; //if the object is currently switching from one sprite to another
-	private float fps; // the frames per second for the element's animation
+	protected float fps; // the frames per second for the element's animation
 	protected int currentFrame; // the current animation frame the element is on
 	protected bool forward; // whether we are in the forward or reverse segment of the animation sequence
 	
-	public virtual void Create(){
-		
-	}
-	
 	public int getType(){
 		return elementType;
-	}
-	
-	public void SetRects(Rect[] rects){
-		atlasRects = rects;
 	}
 	
 	public void ChangeElementType(int type){
@@ -91,78 +78,22 @@ public class GameElement : MonoBehaviour {
 		renderer.sharedMaterial.SetTexture ("_MainTex", texture);
 	}
 	
-	protected void MaterialSetUp(){
-		material = new Material (Shader.Find ("Transparent/VertexLit"));
-		filters = GetComponentsInChildren (typeof(MeshFilter));
-		filters [0].gameObject.renderer.sharedMaterial = material;
-		uva = (Vector2[])(((MeshFilter)filters [0]).mesh.uv);
-	}
-	
-	protected void animate(int startFrame, int endFrame){
-		if (!animating) {
-				StartCoroutine (ChangeSprite (currentFrame, fps));
-				if (currentFrame == endFrame && forward) {
-					currentFrame--;
-					forward = false;
-				} else {
-					if (currentFrame == startFrame && !forward) {
-						currentFrame++;
-						forward = true;
-					} else {
-						if (forward) {
-							currentFrame++;
-						}
-						if (!forward) {
-							currentFrame--;
-						}
-					}
-				}
-			}
-	}
-	
-	protected IEnumerator ChangeSprite (int j, float time)
+	public IEnumerator ChangeMaterial (float time)
 	{
+		int j = 1;
 		animating = true;
-		Vector2[] uvb;
-		uvb = new Vector2[uva.Length];
-		for (int k=0; k < uva.Length; k++) {
-			uvb [k] = new Vector2 ((uva [k].x * atlasRects [j].width) + atlasRects [j].x, (uva [k].y * atlasRects[j].height) + atlasRects [j].y);
-		}
+		renderer.material = materials[j];
 		yield return new WaitForSeconds(time);
-		((MeshFilter)filters [0]).mesh.uv = uvb;
+		j--;
+		renderer.material = materials[j];
+		yield return new WaitForSeconds(time);
 		animating = false;
 	}
-	
-	protected void ChangeSprite (int j)
+	public IEnumerator ChangeMaterial (int index, float time)
 	{
-		Vector2[] uvb;
-		uvb = new Vector2[uva.Length];
-		for (int k=0; k < uva.Length; k++) {
-			uvb [k] = new Vector2 ((uva [k].x * atlasRects [j].width) + atlasRects [j].x, 
-								   (uva [k].y * atlasRects [j].height) + atlasRects [j].y);
-		}
-		((MeshFilter)filters [0]).mesh.uv = uvb;
-	}
-	
-	public IEnumerator ChangeSprite (float time)
-	{
-		int j = elementType;
 		animating = true;
-		Vector2[] uvb;
-		uvb = new Vector2[uva.Length];
-		for (int k=0; k < uva.Length; k++) {
-			uvb [k] = new Vector2 ((uva [k].x * atlasRects [j].width) + atlasRects [j].x, 
-								   (uva [k].y * atlasRects [j].height) + atlasRects [j].y);
-		}
+		renderer.material = materials[index];
 		yield return new WaitForSeconds(time);
-		((MeshFilter)filters [0]).mesh.uv = uvb;
-		j++;
-		for (int k=0; k < uva.Length; k++) {
-			uvb [k] = new Vector2 ((uva [k].x * atlasRects [j].width) + atlasRects [j].x, 
-								   (uva [k].y * atlasRects [j].height) + atlasRects [j].y);
-		}
-		yield return new WaitForSeconds(time);
-		((MeshFilter)filters [0]).mesh.uv = uvb;
 		animating = false;
 	}
 	
@@ -170,5 +101,27 @@ public class GameElement : MonoBehaviour {
 	{
 		Color originalColour = renderer.material.color;
 		renderer.sharedMaterial.color = new Color (originalColour.r, originalColour.g, originalColour.b, 1f);
+	}
+	
+	public IEnumerator itemFlash ()
+	{
+		float newAlpha = 0.5f;
+		float waitTime = 0.1f;
+		Color originalColour = renderer.sharedMaterial.color;
+		renderer.sharedMaterial.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
+		yield return new WaitForSeconds(waitTime);
+		newAlpha = 1f;
+		renderer.sharedMaterial.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
+		yield return new WaitForSeconds(waitTime);
+		newAlpha = 0f;
+		renderer.sharedMaterial.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
+	}
+	
+	public void animate(float time){
+		if(animateable){
+			if(!animating){
+				StartCoroutine(ChangeMaterial(time));
+			}
+		}
 	}
 }

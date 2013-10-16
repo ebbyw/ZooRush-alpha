@@ -3,6 +3,8 @@ using System.Collections;
 
 public class GameObjectGenerator : MonoBehaviour {
 	
+		Character characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
+
 	public GameObject element;
 	public GameObject characterPointer;
 	public string elementType;
@@ -20,13 +22,12 @@ public class GameObjectGenerator : MonoBehaviour {
 		}
 	}
 	
-	public void CreateSceneElement(float offset){
+	public void CreateSceneElement(float offset, Rect[] rect, Texture2D atlas){
 		if(objectsInField <= numOfObjects){
 			position.x += offset;
 			GameObject Elementpointer = Instantiate(element,position,Quaternion.identity) as GameObject;
 			Elementpointer.tag = elementType;
 			objectsInField++;
-			Elementpointer.GetComponent<GameElement>().Create();
 		}
 		else{
 			DestroyAllOutOfRange();
@@ -40,7 +41,7 @@ public class GameObjectGenerator : MonoBehaviour {
 		destroyCount = 0;
 		
 		for(int i = 0; i < allObjects.Length; i++){
-			if(allObjects[i].transform.localPosition.x + destroyOffset < Character.xPosition){
+			if(allObjects[i].transform.localPosition.x + destroyOffset < characterComponent.xPosition){
 				Destroy(allObjects[i]);
 				destroyCount++;
 			}

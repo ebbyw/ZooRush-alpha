@@ -3,44 +3,33 @@ using System.Collections;
 
 public class PowerUp : GameElement
 {
-	public int numPowerUps;
+	public int RowNumber;
+	public int PowerUpType;
+	private Vector3 defaultScale = new Vector3(0.25f,0.5f,1f);
 	
-	enum elementTypes
-	{
-		PillBottle,  // Type 0
-		WaterBottle, // Type 1
-		MAX_POWERUP_TYPES
-	};
+	/** POWER UP TYPES:
+	 *  0 - Pill Bottle
+	 *  1 - Water Bottle
+	 */ 
 	
-	public override void Create ()
+	void Start ()
 	{
-		atlasRects = GameSetUp.powerUpRects;
-		numPowerUps = atlasRects.Length;
-		elementType = Random.Range(0,2);//Chooses number between 0 and 1
-		MaterialSetUp();
-		ChangeSprite (elementType);
-		spritesheet = GameSetUp.powerUpAtlas;
-		renderer.sharedMaterial.SetTexture ("_MainTex", spritesheet);
-
+		elementType = PowerUpType;//Chooses number between 0 and 1
+		renderer.material = materials[0];
+		transform.localScale = defaultScale;
+		RowNum = RowNumber;
+	}
+	void Update ()
+	{
+		Vector3 defaultPosition = transform.localPosition;
+		defaultPosition.y = -3f + RowNumber;
+		defaultPosition.z = -0.5f + RowNumber;
+		transform.localPosition = defaultPosition;
 	}
 		
 	void OnTriggerEnter( Collider other ){ //detects if the Character has touched the PowerUp
 		GUIHealthBar.powerUpType = elementType;
 		StartCoroutine (itemFlash ());
 		GUIHealthBar.addToHealthBar = true;
-	}
-	
-	public IEnumerator itemFlash ()
-	{
-		float newAlpha = 0.5f;
-		float waitTime = 0.1f;
-		Color originalColour = renderer.sharedMaterial.color;
-		renderer.sharedMaterial.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
-		yield return new WaitForSeconds(waitTime);
-		newAlpha = 1f;
-		renderer.sharedMaterial.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
-		yield return new WaitForSeconds(waitTime);
-		newAlpha = 0f;
-		renderer.sharedMaterial.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
 	}
 }

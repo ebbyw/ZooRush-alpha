@@ -3,7 +3,8 @@ using System.Collections;
 
 public class CaptureSequence : MonoBehaviour
 {
-	
+	Animal animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
+	Character characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
 	private bool inRange = false;
 	private bool animating = false;
 	private bool forward = true;
@@ -18,24 +19,24 @@ public class CaptureSequence : MonoBehaviour
 	
 	void FixedUpdate ()
 	{
-		inRange = Mathf.Ceil (Animal.xPosition - Character.xPosition) <= 50;
+		inRange = Mathf.Ceil (animalComponent.xPosition - characterComponent.xPosition) <= 50;
 		if (inRange && !Character.paused) {
-			Character.RunSpeed = Animal.RunSpeed;
+			characterComponent.RunSpeed = animalComponent.RunSpeed;
 			if (!animating) {
 				animateButton ();
 			}
 			
 			if (Input.touchCount != 0) { // touch input detected
 				touch = Input.GetTouch (0);
-				if (touch.deltaPosition.x > 0 && Character.RowNum == Animal.RowNum && touch.deltaPosition.y < 10) {
+				if (touch.deltaPosition.x > 0 && characterComponent.RowNum == animalComponent.RowNumber && touch.deltaPosition.y < 10) {
 					GameObject.Find ("Cage").renderer.enabled = true;
-					Animal.captured = true;
+					animalComponent.captured = true;
 				}
 			} else {
 			
-				if (Input.GetKey ("right") && Character.RowNum == Animal.RowNum) {
+				if (Input.GetKey ("right") && characterComponent.RowNum == animalComponent.RowNumber) {
 					GameObject.Find ("Cage").renderer.enabled = true;
-					Animal.captured = true;
+					animalComponent.captured = true;
 				}
 			}
 		}

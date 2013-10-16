@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 
 public class FgGenerator : GameObjectGenerator {
-	
+	Animal animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
+	Character characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
+
 	void Start () {
 		numOfObjects = 11;
 		elementType = "foreground";
@@ -14,8 +16,8 @@ public class FgGenerator : GameObjectGenerator {
 	}
 	
 	void FixedUpdate () {
-		if(!Character.fainted || !Animal.captured){
-			CreateSceneElement(Random.Range(40,45));
+		if(!characterComponent.fainted || !animalComponent.captured){
+			CreateSceneElement(Random.Range(40,45),null,null);
 		}
 	}
 }

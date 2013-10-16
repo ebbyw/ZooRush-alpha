@@ -3,7 +3,8 @@ using System.Collections;
 
 public class GUIHealthBar : MonoBehaviour
 {
-	
+		Character characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
+
 	public Texture2D[] textures;
 	private float barInitialSize;
 	private float barInitialX;
@@ -75,7 +76,7 @@ public class GUIHealthBar : MonoBehaviour
 				}
 			} 
 			else {
-				Character.fainted = true;
+				characterComponent.fainted = true;
 				//Debug.Log ("Character Fainted!");
 			}
 	

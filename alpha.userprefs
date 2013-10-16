@@ -1,15 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Code/Building.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Code/SceneManager.cs">
     <Files>
-      <File FileName="Assets/Editor/LevelEditor.cs" Line="51" Column="13" />
-      <File FileName="Assets/Code/Building.cs" Line="26" Column="18" />
-      <File FileName="Assets/Code/Obstacle.cs" Line="61" Column="3" />
-      <File FileName="Assets/Code/GameElement.cs" Line="141" Column="1" />
-      <File FileName="Assets/Code/GameSetUp.cs" Line="15" Column="38" />
-      <File FileName="Assets/Code/BuildingGenerator.cs" Line="11" Column="22" />
-      <File FileName="Assets/Code/GameObjectGenerator.cs" Line="29" Column="1" />
-      <File FileName="Assets/Code/PowerUp.cs" Line="16" Column="3" />
+      <File FileName="Assets/Code/Animal.cs" Line="8" Column="22" />
+      <File FileName="Assets/Code/GameElement.cs" Line="84" Column="18" />
+      <File FileName="Assets/Code/BgGenerator.cs" Line="8" Column="105" />
+      <File FileName="Assets/Code/BuildingGenerator.cs" Line="7" Column="105" />
+      <File FileName="Assets/Code/Character.cs" Line="122" Column="47" />
+      <File FileName="Assets/Code/CaptureSequence.cs" Line="7" Column="11" />
+      <File FileName="Assets/Code/FgGenerator.cs" Line="5" Column="8" />
+      <File FileName="Assets/Code/GUIHealthBar.cs" Line="7" Column="1" />
+      <File FileName="Assets/Code/GameObjectGenerator.cs" Line="6" Column="12" />
+      <File FileName="Assets/Code/ObstacleGenerator.cs" Line="6" Column="106" />
+      <File FileName="Assets/Code/PainIndicator.cs" Line="7" Column="2" />
+      <File FileName="Assets/Code/PowerUpGenerator.cs" Line="6" Column="106" />
+      <File FileName="Assets/Code/SceneManager.cs" Line="81" Column="24" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,7 +22,7 @@
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Code" expanded="True">
-                <Node name="Building.cs" selected="True" />
+                <Node name="SceneManager.cs" selected="True" />
               </Node>
             </Node>
           </Node>

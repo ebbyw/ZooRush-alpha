@@ -57,9 +57,9 @@
      <Compile Include="Assets\Code\GameElement.cs" />
      <Compile Include="Assets\Code\GameObjectGenerator.cs" />
      <Compile Include="Assets\Code\GameSetUp.cs" />
-     <Compile Include="Assets\Code\LevelManager.cs" />
      <Compile Include="Assets\Code\Obstacle.cs" />
      <Compile Include="Assets\Code\ObstacleGenerator.cs" />
+     <Compile Include="Assets\Code\PainIndicator.cs" />
      <Compile Include="Assets\Code\PowerUp.cs" />
      <Compile Include="Assets\Code\PowerUpGenerator.cs" />
      <Compile Include="Assets\Code\SceneManager.cs" />
