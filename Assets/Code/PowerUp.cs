@@ -5,7 +5,10 @@ public class PowerUp : GameElement
 {
 	public int RowNumber;
 	public int PowerUpType;
-	private Vector3 defaultScale = new Vector3(0.25f,0.5f,1f);
+	private Vector3[] defaultScale = new Vector3[2]{
+		new Vector3(0.125f,0.25f,1f),
+		new Vector3(0.25f,0.5f,1f)
+	};
 	
 	/** POWER UP TYPES:
 	 *  0 - Pill Bottle
@@ -16,8 +19,10 @@ public class PowerUp : GameElement
 	{
 		elementType = PowerUpType;//Chooses number between 0 and 1
 		renderer.material = materials[0];
-		transform.localScale = defaultScale;
+		transform.localScale = defaultScale[PowerUpType];
 		RowNum = RowNumber;
+		characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
+		animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
 	}
 	void Update ()
 	{
@@ -28,6 +33,9 @@ public class PowerUp : GameElement
 	}
 		
 	void OnTriggerEnter( Collider other ){ //detects if the Character has touched the PowerUp
+		if(PowerUpType == 0){//Pill Bottle
+			audio.Play();
+		}
 		GUIHealthBar.powerUpType = elementType;
 		StartCoroutine (itemFlash ());
 		GUIHealthBar.addToHealthBar = true;

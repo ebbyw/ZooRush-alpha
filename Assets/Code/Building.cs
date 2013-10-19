@@ -28,6 +28,9 @@ public class Building : GameElement {
 			transform.localScale = new Vector3(3f,3f,1f);
 		}
 		renderer.material = materials[0];
+		characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
+		animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
+		transform.gameObject.tag = "building";
 	}
 	
 	void Update(){
@@ -40,12 +43,12 @@ public class Building : GameElement {
 			defaultPosition.y = 1.7f;
 			defaultPosition.z = 4f;
 		}
-		transform.localPosition = defaultPosition;	
+		transform.localPosition = defaultPosition;
 	}
 	
 	private void OnTriggerEnter( Collider other ){//detects if the Character has touched the Building
-		if(!touched && Character.up){
-			Character.flashing = Character.up;
+		if(!touched && characterComponent.up){
+			characterComponent.flashing = characterComponent.up;
 			touched = true;
 			if(elementType == 6){
 				renderer.material = materials[1];
@@ -56,8 +59,8 @@ public class Building : GameElement {
 	}
 	
 	private void OnTriggerStay(Collider other){
-		if(!touched && Character.up){
-			Character.flashing = Character.up;
+		if(!touched && characterComponent.up){
+			characterComponent.flashing = characterComponent.up;
 			touched = true;
 			if(elementType == 6){
 				renderer.material = materials[1];

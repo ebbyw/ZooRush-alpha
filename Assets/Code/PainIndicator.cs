@@ -3,15 +3,15 @@ using System.Collections;
 
 public class PainIndicator : MonoBehaviour
 {
-	Animal animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
-	Character characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
+	Animal animalComponent;
+	Character characterComponent;
 	static public float PainLevel = 0f;
 	static public bool Crisis = false;
 	private float PainIncrement = 0.1f;
 	private GameObject[] PainBars = new GameObject[5];
 	private bool flashing = false;
-	private bool addToPain;
-	private bool subtractFromPain;
+	public bool addToPain;
+	public bool subtractFromPain;
 	static public int powerUpType;
 	static public int obstacleType;
 	private float[] powerUpArray = {35f,20f}; // corresponds with powerUp types
@@ -25,6 +25,8 @@ public class PainIndicator : MonoBehaviour
 	
 	void Start ()
 	{
+		animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
+		characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
 		PainBars [0] = GameObject.Find ("Pain1");
 		PainBars [1] = GameObject.Find ("Pain2");
 		PainBars [2] = GameObject.Find ("Pain3");
@@ -37,7 +39,7 @@ public class PainIndicator : MonoBehaviour
 	
 	void FixedUpdate ()
 	{
-		//if (!Character.paused) { // if our character is moving
+		if (!characterComponent.paused && characterComponent.xPosition>=1.4f) { // if our character is moving
 		if (subtractFromPain) { //addToHealthBar has been altered by the PowerUp class
 			PainLevel -= powerUpArray [powerUpType];
 			subtractFromPain = false;
@@ -60,7 +62,7 @@ public class PainIndicator : MonoBehaviour
 		}
 	
 	}
-	//}
+	}
 	
 	void Update ()
 	{

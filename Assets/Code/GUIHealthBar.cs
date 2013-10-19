@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GUIHealthBar : MonoBehaviour
 {
-		Character characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
+	Character characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
 
 	public Texture2D[] textures;
 	private float barInitialSize;
@@ -37,7 +37,7 @@ public class GUIHealthBar : MonoBehaviour
 	
 	void FixedUpdate ()
 	{
-		if (!Character.paused) { // if our character is moving
+		if (!characterComponent.paused) { // if our character is moving
 			if(addToHealthBar){ //addToHealthBar has been altered by the PowerUp class
 				healthValue += adderArray[powerUpType];
 				addToHealthBar = false;

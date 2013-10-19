@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class BuildingGenerator : GameObjectGenerator {
 	Animal animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
-	GameObject animalPointer = GameObject.FindGameObjectWithTag("animal");
+//	GameObject animalPointer = GameObject.FindGameObjectWithTag("animal");
 	Character characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
 	void Start () {
 		numOfObjects = 6;

@@ -8,8 +8,6 @@ public class Animal : GameElement
 	public int RowNumber;
 	public float xPosition;
 	private int runNum = 1;
-	Character characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
-	
 	public float RunSpeed;
 	/** Sprite Sequence:
 	 *  0 - Run 1
@@ -24,14 +22,15 @@ public class Animal : GameElement
 	{
 		RowNum = RowNumber;
 		xPosition = transform.localPosition.x;
-		RunSpeed = 0.1f;
+		RunSpeed = 3f;
 		captured = false;
+		characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
 	}
 	
 	void Start ()
 	{
-		animalSizes [0] = new Vector3 (40, 10, 0);
-		animalSizes [1] = new Vector3 (20, 10, 0);
+		animalSizes [0] = new Vector3 (3f, 1f, 0f);
+		animalSizes [1] = new Vector3 (1.5f, 1f, 0f);
 		renderer.material = materials[0];	
 		transform.localScale = animalSizes [animalType];
 		forward = true;

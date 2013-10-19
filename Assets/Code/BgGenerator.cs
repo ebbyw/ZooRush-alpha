@@ -4,13 +4,11 @@ using System.Collections.Generic;
 public class BgGenerator : GameObjectGenerator {
 	public bool sky = false;
 	Animal animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
-	GameObject animalPointer = GameObject.FindGameObjectWithTag("animal");
 	Character characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
 	void Start () {
 		numOfObjects = 2;
 		destroyOffset = element.transform.localScale.x + 35;
 		characterPointer = GameObject.FindGameObjectWithTag("character");
-		animalPointer = GameObject.FindGameObjectWithTag("animal");
 		objectsInField = 0;
 		position = new Vector3 (-85f, (sky)?-20:-45f, (sky)?199:198f);
 	}

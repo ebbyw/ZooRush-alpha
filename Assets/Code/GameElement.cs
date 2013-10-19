@@ -6,7 +6,8 @@ using System.Collections;
  *  game element types.
  */ 
 public class GameElement : MonoBehaviour {
-	
+	protected Character characterComponent;
+	protected Animal animalComponent;
 	public Material[] materials;
 	
 	//Gameplay related variables
@@ -107,14 +108,28 @@ public class GameElement : MonoBehaviour {
 	{
 		float newAlpha = 0.5f;
 		float waitTime = 0.1f;
-		Color originalColour = renderer.sharedMaterial.color;
-		renderer.sharedMaterial.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
+		Color originalColour = renderer.material.color;
+		renderer.material.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
 		yield return new WaitForSeconds(waitTime);
 		newAlpha = 1f;
-		renderer.sharedMaterial.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
+		renderer.material.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
 		yield return new WaitForSeconds(waitTime);
 		newAlpha = 0f;
-		renderer.sharedMaterial.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
+		renderer.material.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
+		yield return new WaitForSeconds(waitTime);
+		newAlpha = 0.5f;
+		renderer.material.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
+		yield return new WaitForSeconds(waitTime);
+		newAlpha = 1f;
+		renderer.material.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
+		yield return new WaitForSeconds(waitTime);
+		newAlpha = 0.5f;
+		renderer.material.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
+		yield return new WaitForSeconds(waitTime);
+		newAlpha = 0f;
+		renderer.material.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
+		yield return new WaitForSeconds(waitTime);
+		renderer.enabled = false;
 	}
 	
 	public void animate(float time){

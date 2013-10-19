@@ -50,13 +50,13 @@
      <Compile Include="Assets\Code\BuildingGenerator.cs" />
      <Compile Include="Assets\Code\CaptureSequence.cs" />
      <Compile Include="Assets\Code\Character.cs" />
-     <Compile Include="Assets\Code\CharacterSprite.cs" />
      <Compile Include="Assets\Code\FgGenerator.cs" />
      <Compile Include="Assets\Code\ForegroundItem.cs" />
      <Compile Include="Assets\Code\GUIHealthBar.cs" />
      <Compile Include="Assets\Code\GameElement.cs" />
      <Compile Include="Assets\Code\GameObjectGenerator.cs" />
      <Compile Include="Assets\Code\GameSetUp.cs" />
+     <Compile Include="Assets\Code\LevelManager.cs" />
      <Compile Include="Assets\Code\Obstacle.cs" />
      <Compile Include="Assets\Code\ObstacleGenerator.cs" />
      <Compile Include="Assets\Code\PainIndicator.cs" />

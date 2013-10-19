@@ -20,7 +20,7 @@ public class CaptureSequence : MonoBehaviour
 	void FixedUpdate ()
 	{
 		inRange = Mathf.Ceil (animalComponent.xPosition - characterComponent.xPosition) <= 50;
-		if (inRange && !Character.paused) {
+		if (inRange && !characterComponent.paused) {
 			characterComponent.RunSpeed = animalComponent.RunSpeed;
 			if (!animating) {
 				animateButton ();
@@ -28,13 +28,13 @@ public class CaptureSequence : MonoBehaviour
 			
 			if (Input.touchCount != 0) { // touch input detected
 				touch = Input.GetTouch (0);
-				if (touch.deltaPosition.x > 0 && characterComponent.RowNum == animalComponent.RowNumber && touch.deltaPosition.y < 10) {
+				if (touch.deltaPosition.x > 0 && characterComponent.RowNumber == animalComponent.RowNumber && touch.deltaPosition.y < 10) {
 					GameObject.Find ("Cage").renderer.enabled = true;
 					animalComponent.captured = true;
 				}
 			} else {
 			
-				if (Input.GetKey ("right") && characterComponent.RowNum == animalComponent.RowNumber) {
+				if (Input.GetKey ("right") && characterComponent.RowNumber == animalComponent.RowNumber) {
 					GameObject.Find ("Cage").renderer.enabled = true;
 					animalComponent.captured = true;
 				}

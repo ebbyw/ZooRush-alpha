@@ -5,7 +5,7 @@ public class Obstacle : GameElement
 {
 	public int RowNumber;
 	public int ObstacleType;
-	private Vector3 defaultScale = new Vector3(0.5f,0.5f,1f);
+	private Vector3 defaultScale = new Vector3(0.25f,0.25f,1f);
 	
 	void Start(){
 		animating = false;
@@ -14,6 +14,8 @@ public class Obstacle : GameElement
 		transform.localScale = defaultScale;
 		RowNum = RowNumber;
 		fps = 0.25f;
+		characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
+		animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
 	}
 	
 	void Update ()
@@ -29,8 +31,8 @@ public class Obstacle : GameElement
 	{ //detects if the Character has touched the obstacle
 		GUIHealthBar.obstacleType = elementType;
 		StartCoroutine (itemFlash ());
-		Character.flashing = true;
-		GUIHealthBar.subtractFromHealthBar = true;
+		characterComponent.flashing = true;
+		GameObject.FindGameObjectWithTag("pain").GetComponent<PainIndicator>().addToPain = true;
 	}
 	
 	
