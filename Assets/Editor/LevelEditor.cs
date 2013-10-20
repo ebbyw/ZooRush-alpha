@@ -27,9 +27,10 @@ public class LevelEditor : EditorWindow
 			SceneManagerObject = new GameObject("SceneManager",typeof(SceneManager));
 			SceneManagerObject.GetComponent<SceneManager>().myskin = Resources.Load("FaintedOrCaptured", typeof(GUISkin)) as GUISkin;
 		}
-		if(GameObject.Find ("Main Camera").GetComponentInChildren<PainIndicator>() == null){
-			GameObject Pain = Instantiate(Resources.Load("Prefabs/PainIndicator",typeof(PrefabType))) as GameObject;
-			Pain.transform.parent = GameObject.Find ("Main Camera").transform;
+		if(Camera.main.GetComponentInChildren<PainIndicator>() == null){
+			//GameObject Pain = new GameObject.Instantiate(Resources.Load("Prefabs/PainIndicator",typeof(PrefabType)));
+			//Transform pTrans = Pain.transform;
+			//pTrans.parent = Camera.main.transform;
 		}
 	}
 	
