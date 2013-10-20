@@ -4,8 +4,6 @@ using System.Collections;
 public class Character : GameElement
 {
 	public float distanceTraveled;
-	public int characterValue;
-	private Material characterMaterial;
 	public int RowNumber;
 	private bool Moving = false;
 	private int maxRows = 3;
@@ -19,8 +17,8 @@ public class Character : GameElement
 	private float dragY;
 	public float RunSpeed;
 	public bool fainted = false;
-	public bool paused;
-	int levelPoints;
+	private bool paused;
+	private float gridSize = 1f;
 	
 	/** Character Material Set Up:
 	 *   0 - LevelIdle,
@@ -38,15 +36,13 @@ public class Character : GameElement
 		forward = true;
 		fps = 0.05f;
 		animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
-		paused = true;
+		paused = SceneManager.scenePaused;
 	}
 	
 	public void FixedUpdate ()
 	{ // All math related functions will occur under Fixed Update in order to insure synchronization and consistency
 		if (!fainted && !animalComponent.captured) {
-			
 			if (paused) {
-				StartCoroutine (StartSequence (5f));
 				GameObject.Find ("SceneManager").GetComponent<SceneManager> ().startTime = Time.time;
 			} else {
 				xPosition = transform.localPosition.x;
@@ -85,6 +81,7 @@ public class Character : GameElement
 	
 	void Update ()
 	{
+		paused = SceneManager.scenePaused;
 		if (!waiting && !fainted && !animalComponent.captured && !paused) {
 			if(!animating){
 					StartCoroutine (ChangeMaterial (runNum, fps));
@@ -108,13 +105,7 @@ public class Character : GameElement
 			}
 		}
 	}
-	
-	
-	public IEnumerator StartSequence (float time)
-	{
-		yield return new WaitForSeconds(time);
-		paused = false;
-	}
+
 	
 	public IEnumerator characterFlash ()
 	{
@@ -147,16 +138,15 @@ public class Character : GameElement
 			waitTime = 0.1f;
 		}
 		Moving = true;
-		if (down && (RowNum > 1)) {
-			RowNum--;
-			transform.Translate (Vector3.back * GameSetUp.gridSize);
-		} else if (up && (RowNum < maxRows)) {
-			RowNum++;
-			transform.Translate (Vector3.forward * GameSetUp.gridSize);
+		if (down && (RowNumber > 1)) {
+			RowNumber--;
+			transform.Translate (Vector3.back * RunSpeed * Time.deltaTime);
+		} else if (up && (RowNumber < maxRows)) {
+			RowNumber++;
+			transform.localPosition += new Vector3(0,gridSize,gridSize);
 		}
 		yield return new WaitForSeconds(waitTime);
 		Moving = false;
-		
 	}
 
 

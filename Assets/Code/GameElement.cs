@@ -8,6 +8,7 @@ using System.Collections;
 public class GameElement : MonoBehaviour {
 	protected Character characterComponent;
 	protected Animal animalComponent;
+	protected PainIndicator painComponent;
 	public Material[] materials;
 	
 	//Gameplay related variables
@@ -90,6 +91,12 @@ public class GameElement : MonoBehaviour {
 		yield return new WaitForSeconds(time);
 		animating = false;
 	}
+	
+	public void ChangeMaterial (int index)
+	{
+		renderer.material = materials[index];
+	}
+	
 	public IEnumerator ChangeMaterial (int index, float time)
 	{
 		animating = true;
@@ -97,6 +104,7 @@ public class GameElement : MonoBehaviour {
 		yield return new WaitForSeconds(time);
 		animating = false;
 	}
+	
 	
 	public void ResetAlpha ()
 	{

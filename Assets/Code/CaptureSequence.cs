@@ -20,7 +20,7 @@ public class CaptureSequence : MonoBehaviour
 	void FixedUpdate ()
 	{
 		inRange = Mathf.Ceil (animalComponent.xPosition - characterComponent.xPosition) <= 50;
-		if (inRange && !characterComponent.paused) {
+		if (inRange && !SceneManager.scenePaused) {
 			characterComponent.RunSpeed = animalComponent.RunSpeed;
 			if (!animating) {
 				animateButton ();

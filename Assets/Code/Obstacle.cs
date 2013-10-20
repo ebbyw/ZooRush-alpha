@@ -3,9 +3,16 @@ using System.Collections;
 
 public class Obstacle : GameElement
 {
+	
 	public int RowNumber;
 	public int ObstacleType;
 	private Vector3 defaultScale = new Vector3(0.25f,0.25f,1f);
+	
+	/** Obstacle Types:
+	 * 	0 - Green Infection
+	 *  1 - Red Infection
+	 *  2 - Yellow Infection
+	 */ 
 	
 	void Start(){
 		animating = false;
@@ -16,6 +23,7 @@ public class Obstacle : GameElement
 		fps = 0.25f;
 		characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
 		animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
+		painComponent = GameObject.FindGameObjectWithTag("pain").GetComponent<PainIndicator>();
 	}
 	
 	void Update ()
@@ -29,10 +37,11 @@ public class Obstacle : GameElement
 		
 	void OnTriggerEnter (Collider other)
 	{ //detects if the Character has touched the obstacle
-		GUIHealthBar.obstacleType = elementType;
+		audio.Play();
+		painComponent.obstacleType = elementType;
 		StartCoroutine (itemFlash ());
 		characterComponent.flashing = true;
-		GameObject.FindGameObjectWithTag("pain").GetComponent<PainIndicator>().addToPain = true;
+		painComponent.addToPain = true;
 	}
 	
 	

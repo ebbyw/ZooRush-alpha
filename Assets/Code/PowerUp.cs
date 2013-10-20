@@ -23,6 +23,7 @@ public class PowerUp : GameElement
 		RowNum = RowNumber;
 		characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
 		animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
+		painComponent = GameObject.FindGameObjectWithTag("pain").GetComponent<PainIndicator>();
 	}
 	void Update ()
 	{
@@ -36,8 +37,8 @@ public class PowerUp : GameElement
 		if(PowerUpType == 0){//Pill Bottle
 			audio.Play();
 		}
-		GUIHealthBar.powerUpType = elementType;
+		painComponent.powerUpType = elementType;
 		StartCoroutine (itemFlash ());
-		GUIHealthBar.addToHealthBar = true;
+		painComponent.subtractFromPain= true;
 	}
 }

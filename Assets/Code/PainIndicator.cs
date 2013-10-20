@@ -3,19 +3,25 @@ using System.Collections;
 
 public class PainIndicator : MonoBehaviour
 {
-	Animal animalComponent;
 	Character characterComponent;
-	static public float PainLevel = 0f;
+	TextMesh painNumber;
+	public float PainLevel = 0f;
 	static public bool Crisis = false;
 	private float PainIncrement = 0.1f;
 	private GameObject[] PainBars = new GameObject[5];
 	private bool flashing = false;
 	public bool addToPain;
 	public bool subtractFromPain;
-	static public int powerUpType;
-	static public int obstacleType;
+	public int powerUpType;
+	public int obstacleType;
 	private float[] powerUpArray = {35f,20f}; // corresponds with powerUp types
-	private float[] obstacleArray = {20f, 20f, 50f, 50f, 35f}; //corresponds with obstacle types
+	private float[] obstacleArray = {20f, 50f, 35f}; //corresponds with obstacle types
+	
+	public int numberOfGreenInfections = 0;
+	public int numberOfYellowInfections = 0;
+	public int numberOfRedInfections = 0;
+	public int numberOfWaterBottles = 0;
+	public bool PillBottleUsed = false;
 	Color red = new Color (1f, 0.5f, 0.5f, 1f);
 	Color red2 = new Color (1f, 0.6f, 0.6f, 1f);
 	Color red3 = new Color (1f, 0.7f, 0.7f, 1f);
@@ -25,8 +31,8 @@ public class PainIndicator : MonoBehaviour
 	
 	void Start ()
 	{
-		animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
-		characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
+		//animalComponent = GameObject.FindGameObjectWithTag ("animal").GetComponent<Animal> ();
+		characterComponent = GameObject.FindGameObjectWithTag ("character").GetComponent<Character> ();
 		PainBars [0] = GameObject.Find ("Pain1");
 		PainBars [1] = GameObject.Find ("Pain2");
 		PainBars [2] = GameObject.Find ("Pain3");
@@ -39,29 +45,45 @@ public class PainIndicator : MonoBehaviour
 	
 	void FixedUpdate ()
 	{
-		if (!characterComponent.paused && characterComponent.xPosition>=1.4f) { // if our character is moving
-		if (subtractFromPain) { //addToHealthBar has been altered by the PowerUp class
-			PainLevel -= powerUpArray [powerUpType];
-			subtractFromPain = false;
-		}
-		if (addToPain) {
-			PainLevel += obstacleArray [obstacleType];
-			addToPain = false;
-		}
+		if (!SceneManager.scenePaused && characterComponent.xPosition >= 1.4f) { // if our character is moving
+			if (subtractFromPain) { //addToHealthBar has been altered by the PowerUp class
+				PainLevel -= powerUpArray [powerUpType];
+				if (powerUpType == 0) {
+					PillBottleUsed = true;
+				} else {
+					numberOfWaterBottles++;
+				}
+				subtractFromPain = false;
+			}
+			if (addToPain) {
+				PainLevel += obstacleArray [obstacleType];
+				if(obstacleType == 0){ // Green
+					numberOfGreenInfections++;
+				}
+				else{
+					if(obstacleType == 2){ // Yellow
+						numberOfYellowInfections++;
+					}
+					else{// Red
+						numberOfRedInfections++;
+					}
+				}
+				addToPain = false;
+			}
 			
-		if (PainLevel > 100f) { //Keep Health Value capped at 100 regardless of PowerUp Value
-			PainLevel = 100;
-		}
-		if (PainLevel < 100f) { //If lower than this we can consider the character fainted
+			if (PainLevel > 100f) { //Keep Health Value capped at 100 regardless of PowerUp Value
+				PainLevel = 100;
+			}
+			if (PainLevel < 100f) { //If lower than this we can consider the character fainted
 				
-			PainLevel += PainIncrement;
+				PainLevel += PainIncrement;
 				
-		} else {
-			characterComponent.fainted = true;
-			//Debug.Log ("Character Fainted!");
-		}
+			} else {
+				characterComponent.fainted = true;
+				//Debug.Log ("Character Fainted!");
+			}
 	
-	}
+		}
 	}
 	
 	void Update ()
@@ -69,23 +91,28 @@ public class PainIndicator : MonoBehaviour
 		if (!characterComponent.fainted) {
 			if (PainLevel > 20f) {
 				PainBars [0].renderer.enabled = true;
+				Crisis = false;
 			} else {
 				PainBars [0].renderer.enabled = false;
+				Crisis = false;
 			}
 			if (PainLevel > 40f) {
 				PainBars [1].renderer.enabled = true;
 			} else {
 				PainBars [1].renderer.enabled = false;
+				Crisis = false;
 			}
 			if (PainLevel > 50f) {
 				PainBars [2].renderer.enabled = true;
 			} else {
 				PainBars [2].renderer.enabled = false;
+				Crisis = false;
 			}
 			if (PainLevel > 75f) {
 				PainBars [3].renderer.enabled = true;
 			} else {
 				PainBars [3].renderer.enabled = false;
+				Crisis = false;
 			}
 			if (PainLevel > 80f) {
 				PainBars [4].renderer.enabled = true;

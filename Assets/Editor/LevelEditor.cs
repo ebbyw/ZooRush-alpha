@@ -7,6 +7,8 @@ using System.Collections.Generic;
 public class LevelEditor : EditorWindow
 {	
 	GameObject SceneManagerObject;
+	GameObject PainBar;
+	bool levelEditorEnable = true;
 	
 	[MenuItem("Zoo Rush Tools/Level Editor %l")]
 	private static void showEditor ()
@@ -22,41 +24,63 @@ public class LevelEditor : EditorWindow
 	
 	void Update ()
 	{
-		ohSnap ();
-		if(SceneManagerObject == null){
-			SceneManagerObject = new GameObject("SceneManager",typeof(SceneManager));
-			SceneManagerObject.GetComponent<SceneManager>().myskin = Resources.Load("FaintedOrCaptured", typeof(GUISkin)) as GUISkin;
-		}
-		if(Camera.main.GetComponentInChildren<PainIndicator>() == null){
-			//GameObject Pain = new GameObject.Instantiate(Resources.Load("Prefabs/PainIndicator",typeof(PrefabType)));
-			//Transform pTrans = Pain.transform;
-			//pTrans.parent = Camera.main.transform;
+		if (levelEditorEnable) {
+			ohSnap ();
+			if (RenderSettings.ambientLight != Color.white) {
+				RenderSettings.ambientLight = Color.white;
+			}
+			if (SceneManagerObject == null) {
+				SceneManagerObject = new GameObject ("SceneManager", typeof(SceneManager));
+				SceneManagerObject.transform.parent = Camera.main.transform;
+				SceneManagerObject.GetComponent<SceneManager> ().myskin = Resources.Load ("FaintedOrCaptured", typeof(GUISkin)) as GUISkin;
+			}
+			if (Camera.main.GetComponentInChildren<PainIndicator> () == null) {
+				GameObject prefab = Resources.Load ("Prefabs/Stage Elements/PainIndicator", typeof(GameObject)) as GameObject;
+				if (prefab == null) {
+					Debug.Log ("prefab is null");
+				}
+				PainBar = GameObject.Instantiate (prefab,new Vector3(4.499166f,2.033132f,2.15f),Quaternion.identity) as GameObject;
+				PainBar.transform.parent = Camera.main.transform;
+			}
 		}
 	}
 	
 	void OnGUI ()
 	{
-		EditorGUILayout.LabelField ("Please keep this tab visible.");
-		if(GameObject.FindGameObjectWithTag("character") == null){
-			EditorGUILayout.LabelField("Please include a Character Object");
-		}
-		if(GameObject.FindGameObjectWithTag("animal") == null){
-			EditorGUILayout.LabelField("Please include an Animal Object");
-		}
-		if(GameObject.FindGameObjectWithTag("powerUp") == null){
-			EditorGUILayout.LabelField("Please include at least one PowerUp Object");
-		}
-		if(GameObject.FindGameObjectWithTag("obstacle") == null){
-			EditorGUILayout.LabelField("Please include at least one Infection Object");
-		}
-		if(GameObject.FindGameObjectWithTag("sky") == null){
-			EditorGUILayout.LabelField("Please include at least one Sky Object");
-		}
-		if(GameObject.FindGameObjectWithTag("ground") == null){
-			EditorGUILayout.LabelField("Please include at least one Ground Object");
-		}
-		if(GameObject.FindGameObjectWithTag("building") == null){
-			EditorGUILayout.LabelField("Please include at least one Building Object");
+		EditorGUILayout.BeginHorizontal ();{
+				EditorGUILayout.LabelField ("Enable Editor");
+				levelEditorEnable = EditorGUILayout.Toggle (levelEditorEnable);
+			}
+			EditorGUILayout.EndHorizontal ();
+		if (levelEditorEnable) {
+			if (GUILayout.Button ("Reset Camera Location")) {
+				Vector3 temp = GameObject.Find ("Main Camera").camera.transform.localPosition;
+				temp.x = 3.5f;
+				GameObject.Find ("Main Camera").camera.transform.localPosition = temp;
+			}
+		
+			EditorGUILayout.LabelField ("Please keep this tab visible.");
+			if (GameObject.FindGameObjectWithTag ("character") == null) {
+				EditorGUILayout.LabelField ("Please include a Character Object");
+			}
+			if (GameObject.FindGameObjectWithTag ("animal") == null) {
+				EditorGUILayout.LabelField ("Please include an Animal Object");
+			}
+			if (GameObject.FindGameObjectWithTag ("powerUp") == null) {
+				EditorGUILayout.LabelField ("Please include at least one PowerUp Object");
+			}
+			if (GameObject.FindGameObjectWithTag ("obstacle") == null) {
+				EditorGUILayout.LabelField ("Please include at least one Infection Object");
+			}
+			if (GameObject.FindGameObjectWithTag ("sky") == null) {
+				EditorGUILayout.LabelField ("Please include at least one Sky Object");
+			}
+			if (GameObject.FindGameObjectWithTag ("ground") == null) {
+				EditorGUILayout.LabelField ("Please include at least one Ground Object");
+			}
+			if (GameObject.FindGameObjectWithTag ("building") == null) {
+				EditorGUILayout.LabelField ("Please include at least one Building Object");
+			}
 		}
 	}
 	

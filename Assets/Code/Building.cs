@@ -30,6 +30,7 @@ public class Building : GameElement {
 		renderer.material = materials[0];
 		characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
 		animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
+		painComponent = GameObject.FindGameObjectWithTag("pain").GetComponent<PainIndicator>();
 		transform.gameObject.tag = "building";
 	}
 	
@@ -51,9 +52,10 @@ public class Building : GameElement {
 			characterComponent.flashing = characterComponent.up;
 			touched = true;
 			if(elementType == 6){
+				audio.Play();
 				renderer.material = materials[1];
 				//Add Character Animation code somewhere here
-				GUIHealthBar.healthValue = 100f;
+				painComponent.PainLevel = 0f;
 			}
 		}
 	}
@@ -63,10 +65,16 @@ public class Building : GameElement {
 			characterComponent.flashing = characterComponent.up;
 			touched = true;
 			if(elementType == 6){
+				audio.Play();
 				renderer.material = materials[1];
 				//Add Character Animation code somewhere here
-				GUIHealthBar.healthValue = 100f;
+				painComponent.PainLevel = 0f;
 			}
 		}
+	}
+	
+	public void resetTouch(){
+		renderer.material = materials[0];
+		touched = false;
 	}
 }

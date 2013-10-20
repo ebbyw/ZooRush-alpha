@@ -9,6 +9,12 @@ public class Animal : GameElement
 	public float xPosition;
 	private int runNum = 1;
 	public float RunSpeed;
+	
+	/** Animal Types:
+	 *  0 - Alligator
+	 *  1 - Tortoise
+	 */ 
+	
 	/** Sprite Sequence:
 	 *  0 - Run 1
 	 *  1 - Run 2
