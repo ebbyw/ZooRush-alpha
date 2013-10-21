@@ -8,7 +8,6 @@ public class SceneManager : MonoBehaviour
 	Character characterComponent;
 	public float startTime;
 	public float elapsedTime;
-	public float endTime;
 	private int minutes;
 	private int seconds;
 	private bool animalHeadStart;
@@ -34,7 +33,7 @@ public class SceneManager : MonoBehaviour
 		characterComponent = GameObject.FindGameObjectWithTag ("character").GetComponent<Character> ();
 		elapsedTime = 0f;
 		animalHeadStart = true;
-		levelSounds = new AudioClip[3];
+		levelSounds = new AudioClip[4];
 		levelSounds[0] = Resources.Load("Sounds/CAPTURED",typeof(AudioClip)) as AudioClip;
 		levelSounds[1] = Resources.Load("Sounds/GAMEOVER",typeof(AudioClip)) as AudioClip;
 		levelSounds[2] = Resources.Load("Sounds/HARDSICKLOOP",typeof(AudioClip)) as AudioClip;
@@ -95,7 +94,7 @@ public class SceneManager : MonoBehaviour
 				GUI.Box (NotificationLocation, new GUIContent ("YOU CAUGHT IT!"));
 #if UNITY_STANDALONE || UNITY_WEBPLAYER ||UNITY_EDITOR
 		GUI.Label (SpaceBarNotificationLocation, "(Press Space Bar)");
-		if(Input.GetKey ("space")){
+		if(Input.GetKeyUp ("space")){
 			goBackToMenu ();
 		}
 #endif	
@@ -118,7 +117,7 @@ public class SceneManager : MonoBehaviour
 					GUI.Box (NotificationLocation, new GUIContent ("YOU FAINTED!"));
 #if UNITY_STANDALONE || UNITY_WEBPLAYER ||UNITY_EDITOR
 		GUI.Label (SpaceBarNotificationLocation, "(Press Space Bar)");
-		if(Input.GetKey ("space")){
+		if(Input.GetKeyUp ("space")){
 			goBackToMenu ();
 		}
 #endif	
@@ -246,7 +245,7 @@ public class SceneManager : MonoBehaviour
 			temp.x = farthestSkyx + (farthestSky.transform.localScale.x * 0.5f) + (closestSky.transform.localScale.x * 0.5f);
 			closestSky.transform.localPosition = temp;
 		}
-		float elementOffset = 15f;
+		float elementOffset = 5f;
 		float deltaDistance = farthestElementx - closestElementx;
 		if (characterComponent.xPosition >= farthestElementx - 0.5f) {
 			Vector3 temp = closestElement.transform.localPosition;

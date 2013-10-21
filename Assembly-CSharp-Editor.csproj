@@ -46,6 +46,7 @@
   <ItemGroup>
      <Compile Include="Assets\Editor\AnimalEditor.cs" />
      <Compile Include="Assets\Editor\BuildingEditor.cs" />
+     <Compile Include="Assets\Editor\CharacterEditor.cs" />
      <Compile Include="Assets\Editor\LevelEditor.cs" />
      <Compile Include="Assets\Editor\ObstacleEditor.cs" />
      <Compile Include="Assets\Editor\PowerUpEditor.cs" />

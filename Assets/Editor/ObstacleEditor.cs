@@ -39,11 +39,15 @@ public class ObstacleEditor : Editor {
 			default:
 				break;
 			}
+			thisObstacle.enabled = false;
+			thisObstacle.enabled = true;
 		}
 		EditorGUILayout.EndHorizontal();
 		EditorGUILayout.BeginHorizontal();{
 			EditorGUILayout.LabelField("Row Number: ");
 			thisObstacle.RowNumber = EditorGUILayout.IntSlider(thisObstacle.RowNumber,1,3);
+			thisObstacle.enabled = false;
+			thisObstacle.enabled = true;
 		}
 		EditorGUILayout.EndHorizontal();
 	}

@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Building : GameElement {
-	public int BuildingType;
+	public int buildingType;
 	/** Building Types:
 	 *  Building types are organized in alphabetical order of the building 
 	 *  texture file names in the Assets/Resources/Textures/Buildings/ directory
@@ -20,9 +20,9 @@ public class Building : GameElement {
 	
 	void Start( ){
 		touched = false;
-		elementType = BuildingType;
+		elementType = buildingType;
 		if(elementType == 7){
-			elementType = 6;
+			elementType = 8;
 		}
 		if(elementType == 6){
 			transform.localScale = new Vector3(3f,3f,1f);
@@ -52,6 +52,7 @@ public class Building : GameElement {
 			characterComponent.flashing = characterComponent.up;
 			touched = true;
 			if(elementType == 6){
+				//Debug.Log("YOU TOUCHED ME!");
 				audio.Play();
 				renderer.material = materials[1];
 				//Add Character Animation code somewhere here
@@ -65,6 +66,7 @@ public class Building : GameElement {
 			characterComponent.flashing = characterComponent.up;
 			touched = true;
 			if(elementType == 6){
+				//Debug.Log("YOU TOUCHED ME!");
 				audio.Play();
 				renderer.material = materials[1];
 				//Add Character Animation code somewhere here

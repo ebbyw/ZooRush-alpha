@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Character : GameElement
 {
+	public int characterType;
 	public float distanceTraveled;
 	public int RowNumber;
 	private bool Moving = false;
@@ -18,7 +19,6 @@ public class Character : GameElement
 	public float RunSpeed;
 	public bool fainted = false;
 	private bool paused;
-	private float gridSize = 1f;
 	
 	/** Character Material Set Up:
 	 *   0 - LevelIdle,
@@ -52,18 +52,17 @@ public class Character : GameElement
 				if (flashing) {
 					StartCoroutine (characterFlash ());	
 				}
-
 				if (!Moving) {
 					down = Input.GetKey ("down");
 					up = Input.GetKey ("up");
 			
 					if (Input.touchCount != 0) { // touch input detected
 						touch = Input.GetTouch (0);
-						if (touch.deltaPosition.y > 0) {
+						if (touch.position.y < Screen.height/2) {
 							up = true;
 							down = false;
 						}
-						if (touch.deltaPosition.y < 0) {
+						if (touch.position.y > Screen.height/2) {
 							up = false;
 							down = true;
 						}
@@ -74,8 +73,6 @@ public class Character : GameElement
 					}
 				}
 			}
-		} else {
-			GameObject.Find ("SceneManager").GetComponent<SceneManager> ().endTime = Time.time;
 		}
 	}
 	
@@ -143,13 +140,10 @@ public class Character : GameElement
 			transform.Translate (Vector3.back * RunSpeed * Time.deltaTime);
 		} else if (up && (RowNumber < maxRows)) {
 			RowNumber++;
-			transform.localPosition += new Vector3(0,gridSize,gridSize);
+			transform.Translate (Vector3.forward * RunSpeed * Time.deltaTime);
+			//transform.localPosition += new Vector3(0,gridSize,gridSize);
 		}
 		yield return new WaitForSeconds(waitTime);
 		Moving = false;
 	}
-
-
-	
-	
 }

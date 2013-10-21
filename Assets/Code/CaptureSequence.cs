@@ -34,7 +34,7 @@ public class CaptureSequence : MonoBehaviour
 				}
 			} else {
 			
-				if (Input.GetKey ("right") && characterComponent.RowNumber == animalComponent.RowNumber) {
+				if (Input.GetKeyUp ("right") && characterComponent.RowNumber == animalComponent.RowNumber) {
 					GameObject.Find ("Cage").renderer.enabled = true;
 					animalComponent.captured = true;
 				}

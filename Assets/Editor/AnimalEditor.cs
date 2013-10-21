@@ -20,6 +20,7 @@ public class AnimalEditor : Editor {
 		if(thisAnimal == null){
 			thisAnimal = target as Animal;
 		}
+		
 		GUILayout.Label("Animal Editor:");
 		EditorGUILayout.BeginHorizontal();{
 			EditorGUILayout.LabelField("Animal Type");
@@ -28,24 +29,28 @@ public class AnimalEditor : Editor {
 			case 0: //Crocodile
 				thisAnimal.materials[0] = Resources.Load("Materials/Animals/Crocodile/"+crocodileMaterialNames[0],typeof(Material)) as Material;
 				thisAnimal.materials[1] = Resources.Load("Materials/Animals/Crocodile/"+crocodileMaterialNames[1],typeof(Material)) as Material;
-				thisAnimal.materials[1] = Resources.Load("Materials/Animals/Crocodile/"+crocodileMaterialNames[2],typeof(Material)) as Material;
+				thisAnimal.materials[2] = Resources.Load("Materials/Animals/Crocodile/"+crocodileMaterialNames[2],typeof(Material)) as Material;
 				thisAnimal.renderer.material = thisAnimal.materials[0];
 				break;
 			case 1: //Tortoise
 				thisAnimal.materials[0] = Resources.Load("Materials/Animals/Tortoise/"+tortoiseMaterialNames[0],typeof(Material)) as Material;
 				thisAnimal.materials[1] = Resources.Load("Materials/Animals/Tortoise/"+tortoiseMaterialNames[1],typeof(Material)) as Material;
-				thisAnimal.materials[1] = Resources.Load("Materials/Animals/Tortoise/"+tortoiseMaterialNames[2],typeof(Material)) as Material;
+				thisAnimal.materials[2] = Resources.Load("Materials/Animals/Tortoise/"+tortoiseMaterialNames[2],typeof(Material)) as Material;
 				thisAnimal.renderer.material = thisAnimal.materials[0];
 				break;
 			default:
 				break;
 			}
 			thisAnimal.transform.localScale = animalSizes[thisAnimal.animalType];
+			thisAnimal.enabled = false;
+			thisAnimal.enabled = true;
 		}
 		EditorGUILayout.EndHorizontal();
 		EditorGUILayout.BeginHorizontal();{
 			EditorGUILayout.LabelField("Row Number: ");
 			thisAnimal.RowNumber = EditorGUILayout.IntSlider(thisAnimal.RowNumber,1,3);
+			thisAnimal.enabled = false;
+			thisAnimal.enabled = true;
 		}
 		EditorGUILayout.EndHorizontal();
 	}

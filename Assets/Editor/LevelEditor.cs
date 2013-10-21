@@ -39,9 +39,9 @@ public class LevelEditor : EditorWindow
 				if (prefab == null) {
 					Debug.Log ("prefab is null");
 				}
-				PainBar = GameObject.Instantiate (prefab,new Vector3(4.499166f,2.033132f,2.15f),Quaternion.identity) as GameObject;
+				PainBar = GameObject.Instantiate (prefab, new Vector3 (4.499166f, 2.033132f, 2.15f), Quaternion.identity) as GameObject;
 				PainBar.transform.parent = Camera.main.transform;
-				PainBar.transform.localPosition = new Vector3(2.3f,2f,2.15f);
+				PainBar.transform.localPosition = new Vector3 (2.3f, 2f, 2.15f);
 			}
 		}
 	}
@@ -49,10 +49,10 @@ public class LevelEditor : EditorWindow
 	void OnGUI ()
 	{
 		EditorGUILayout.BeginHorizontal ();{
-				EditorGUILayout.LabelField ("Enable Editor");
-				levelEditorEnable = EditorGUILayout.Toggle (levelEditorEnable);
-			}
-			EditorGUILayout.EndHorizontal ();
+			EditorGUILayout.LabelField ("Enable Editor");
+			levelEditorEnable = EditorGUILayout.Toggle (levelEditorEnable);
+		}
+		EditorGUILayout.EndHorizontal ();
 		if (levelEditorEnable) {
 			if (GUILayout.Button ("Reset Camera Location")) {
 				Vector3 temp = GameObject.Find ("Main Camera").camera.transform.localPosition;
@@ -106,12 +106,24 @@ public class LevelEditor : EditorWindow
 			if (go.GetComponent (typeof(Building)) != null) {//Object is a Building
 				go.tag = "building";
 				Vector3 temp = go.transform.localPosition;
-				if (go.GetComponent<Building> ().BuildingType == 6) {// Element is a Hospital
+				if (go.GetComponent<Building> ().buildingType == 6) {// Element is a Doctor's Office
 					temp.y = 1.933f;
 					temp.z = 5f;
+					go.GetComponent<BoxCollider>().size = new Vector3(1f,1f,3.75f);
+					if (go.GetComponent<AudioSource> () == null) {
+						AudioSource doctorSoundSource;
+						doctorSoundSource = go.AddComponent<AudioSource> (); 
+						doctorSoundSource.clip = Resources.Load ("Sounds/DOCTOR", typeof(AudioClip)) as AudioClip;
+						doctorSoundSource.playOnAwake = false;
+					}
+					go.transform.localScale = new Vector3(3f,3f,1f);
 				} else {
+					if (go.GetComponent<AudioSource> () != null) {
+						DestroyImmediate(go.GetComponent<AudioSource> ());
+					}
 					temp.y = 1.7f;
 					temp.z = 4f;
+					go.transform.localScale = new Vector3(2.5f,2.5f,1f);
 				}
 				go.transform.localPosition = temp;
 			}
@@ -170,6 +182,12 @@ public class LevelEditor : EditorWindow
 				go.tag = "powerUp";
 				Vector3 temp = go.transform.localPosition;
 				if (go.GetComponent<PowerUp> ().PowerUpType == 0) {//element is a pill bottle
+					if (go.GetComponent<AudioSource> () == null) {
+						AudioSource pillBottleSoundSource;
+						pillBottleSoundSource = go.AddComponent<AudioSource> (); 
+						pillBottleSoundSource.clip = Resources.Load ("Sounds/PILL", typeof(AudioClip)) as AudioClip;
+						pillBottleSoundSource.playOnAwake = false;
+					}
 					if (go.GetComponent<PowerUp> ().RowNumber == 1) {// Element is in Row 1
 						temp.y = -2.125f;
 						temp.z = 0.5f;
@@ -182,7 +200,10 @@ public class LevelEditor : EditorWindow
 							temp.z = 2.5f;
 						}
 					}
-				} else {
+				} else { // element is a water bottle
+					if (go.GetComponent<AudioSource> () != null) {
+						DestroyImmediate(go.GetComponent<AudioSource> ());
+					}
 					if (go.GetComponent<PowerUp> ().RowNumber == 1) {// Element is in Row 1
 						temp.y = -2f;
 						temp.z = 0.5f;
