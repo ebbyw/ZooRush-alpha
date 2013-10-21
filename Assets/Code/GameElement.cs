@@ -115,7 +115,7 @@ public class GameElement : MonoBehaviour {
 	public IEnumerator itemFlash ()
 	{
 		float newAlpha = 0.5f;
-		float waitTime = 0.1f;
+		float waitTime = 0.07f;
 		Color originalColour = renderer.material.color;
 		renderer.material.color = new Color (originalColour.r, originalColour.g, originalColour.b, newAlpha);
 		yield return new WaitForSeconds(waitTime);

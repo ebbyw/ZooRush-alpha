@@ -17,7 +17,7 @@ public class PowerUp : GameElement
 	
 	void Start ()
 	{
-		elementType = PowerUpType;//Chooses number between 0 and 1
+		elementType = PowerUpType;
 		renderer.material = materials[0];
 		transform.localScale = defaultScale[PowerUpType];
 		RowNum = RowNumber;

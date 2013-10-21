@@ -21,12 +21,14 @@ public class Animal : GameElement
 	 *  2 - Run 3
 	 */
 	
-	private Vector3[] animalSizes = new Vector3[2] ;
+	private Vector3[] animalSizes = new Vector3[2] {
+		new Vector3 (3f, 1f, 0f),
+		new Vector3 (1.5f, 1f, 0f)
+	};
 	
 	
 	void Awake ()
 	{
-		RowNum = RowNumber;
 		xPosition = transform.localPosition.x;
 		RunSpeed = 3f;
 		captured = false;
@@ -35,8 +37,7 @@ public class Animal : GameElement
 	
 	void Start ()
 	{
-		animalSizes [0] = new Vector3 (3f, 1f, 0f);
-		animalSizes [1] = new Vector3 (1.5f, 1f, 0f);
+		RowNum = RowNumber;
 		renderer.material = materials[0];	
 		transform.localScale = animalSizes [animalType];
 		forward = true;

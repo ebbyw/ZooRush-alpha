@@ -41,6 +41,7 @@ public class LevelEditor : EditorWindow
 				}
 				PainBar = GameObject.Instantiate (prefab,new Vector3(4.499166f,2.033132f,2.15f),Quaternion.identity) as GameObject;
 				PainBar.transform.parent = Camera.main.transform;
+				PainBar.transform.localPosition = new Vector3(2.3f,2f,2.15f);
 			}
 		}
 	}
