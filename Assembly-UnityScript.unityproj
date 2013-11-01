@@ -18,7 +18,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_STANDALONE_OSX;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GAMECENTER;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_1;UNITY_4_2;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX;Sprite;(id=-26236)</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_2;UNITY_4_2;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX;Sprite;(id=-26236)</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -44,39 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Orthello\Examples\1 - Paralax scrolling FilledSprite\JSExample1.js" />
-     <Compile Include="Assets\Orthello\Examples\2 - Moving collidable sprites\JSBlock2.js" />
-     <Compile Include="Assets\Orthello\Examples\2 - Moving collidable sprites\JSExample2.js" />
-     <Compile Include="Assets\Orthello\Examples\2 - Moving collidable sprites\JSStar2.js" />
-     <Compile Include="Assets\Orthello\Examples\3 - Shooting Asteroids\JSAsteroid3.js" />
-     <Compile Include="Assets\Orthello\Examples\3 - Shooting Asteroids\JSBullet3.js" />
-     <Compile Include="Assets\Orthello\Examples\3 - Shooting Asteroids\JSExample3.js" />
-     <Compile Include="Assets\Orthello\Examples\4 - Follow Target View\JSExample4.js" />
-     <Compile Include="Assets\Orthello\Examples\4 - Follow Target View\JSMover4.js" />
-     <Compile Include="Assets\Orthello\Examples\5 - Creating At Runtime\JSExample5.js" />
-     <Compile Include="Assets\Orthello\Examples\6 - Physics\JSExample6.js" />
-     <Compile Include="Assets\Orthello\Examples\7 - Tweening\JSExample7.js" />
-     <Compile Include="Assets\Orthello\Examples\7 - Tweening\JSStar7_1.js" />
-     <Compile Include="Assets\Orthello\Examples\7 - Tweening\JSStar7_2.js" />
-     <None Include="Assets\Orthello\Examples\0 - Simple Examples\TextSprites\lorem-ascii.txt" />
-     <None Include="Assets\Orthello\Examples\0 - Simple Examples\TextSprites\Atlases\russian.txt" />
-     <None Include="Assets\Spritesheets\BoyZoo.txt" />
-     <None Include="Assets\Orthello\Examples\4 - Follow Target View\-orthello-config.xml" />
-     <None Include="Assets\Spritesheets\Gorilla.txt" />
-     <None Include="Assets\Orthello\-Read-Me.txt" />
-     <None Include="Assets\Orthello\Examples\0 - Simple Examples\TextSprites\orthello-font-30.txt" />
-     <None Include="Assets\Orthello\Examples\0 - Simple Examples\TextSprites\Atlases\img.xml" />
-     <None Include="Assets\Orthello\Examples\0 - Simple Examples\TextSprites\Atlases\glyph.xml" />
-     <None Include="Assets\Orthello\Examples\0 - Simple Examples\TextSprites\Atlases\chalk.xml" />
-     <None Include="Assets\Spritesheets\Flamingo.txt" />
-     <None Include="Assets\Orthello\Examples\0 - Simple Examples\Multi Resolution Art\atlas.xml" />
-     <None Include="Assets\Spritesheets\Crocodile.txt" />
-     <None Include="Assets\Spritesheets\Rhino.txt" />
-     <None Include="Assets\Orthello\Standard Assets\OT\_Base\TintedAlpha.shader" />
-     <None Include="Assets\Orthello\Examples\0 - Simple Examples\RotateTowards\-read-me.txt" />
-     <None Include="Assets\Orthello\Examples\0 - Simple Examples\Persistance\-read-me.txt" />
-     <None Include="Assets\Orthello\Examples\0 - Simple Examples\TextSprites\lorem-rus-utf8.txt" />
-     <None Include="Assets\Spritesheets\GirlZoo.txt" />
+     <Compile Include="Assets\Code\NewBehaviourScript.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
