@@ -6,17 +6,15 @@ public class SceneManager : MonoBehaviour
 {
 	Animal animalComponent;
 	Character characterComponent;
-	PainIndicator painBarComponent;
+	//PainIndicator painBarComponent;
 	public float startTime;
 	public float elapsedTime;
 	private int minutes;
 	private int seconds;
 	private bool animalHeadStart;
 	static public bool scenePaused;
-	public AudioSource sceneSoundSource;
 	public AudioClip[] levelSounds;
 	public int levelNumber;
-	
 	private int countGreenInfections;
 	private int countYellowInfections;
 	private int countRedInfections;
@@ -35,10 +33,11 @@ public class SceneManager : MonoBehaviour
 	
 	void Start ()
 	{
+		startTime = Time.time;
 		RenderSettings.ambientLight = Color.white;
 		animalComponent = GameObject.FindGameObjectWithTag ("animal").GetComponent<Animal> ();
 		characterComponent = GameObject.FindGameObjectWithTag ("character").GetComponent<Character> ();
-		painBarComponent = GameObject.FindGameObjectWithTag ("pain").GetComponent<PainIndicator> ();
+		//painBarComponent = GameObject.FindGameObjectWithTag ("pain").GetComponent<PainIndicator> ();
 		elapsedTime = 0f;
 		animalHeadStart = true;
 		
@@ -49,12 +48,19 @@ public class SceneManager : MonoBehaviour
 #if UNITY_STANDALONE || UNITY_WEBPLAYER ||UNITY_EDITOR
 		SpaceBarNotificationLocation = new Rect (0, Screen.height * 0.66f, Screen.width, Screen.height / 6);
 #endif
+		myskin = Resources.Load ("FaintedOrCaptured", typeof(GUISkin)) as GUISkin;
+		levelSounds = new AudioClip[5];
+		levelSounds [0] = Resources.Load ("Sounds/CAPTURED", typeof(AudioClip)) as AudioClip;
+		levelSounds [1] = Resources.Load ("Sounds/GAMEOVER", typeof(AudioClip)) as AudioClip;
+		levelSounds [2] = Resources.Load ("Sounds/HARDSICKLOOP", typeof(AudioClip)) as AudioClip;
+		levelSounds [3] = Resources.Load ("Sounds/SOFTSICKLOOP", typeof(AudioClip)) as AudioClip;
+		levelSounds [4] = Resources.Load ("Sounds/LEVEL1", typeof(AudioClip)) as AudioClip;
 	}
 	
 	void Update ()
 	{
-		if(!scenePaused){
-			audio.Play();
+		if (!scenePaused) {
+			audio.Play ();
 		}
 		
 		if (animalHeadStart) {
@@ -73,7 +79,6 @@ public class SceneManager : MonoBehaviour
 						Application.Quit ();
 					}
 				}
-		
 				if (characterComponent.xPosition >= 1.4f) {
 					Vector3 temp = GameObject.Find ("Main Camera").camera.transform.localPosition;
 					temp.x = GameObject.FindGameObjectWithTag ("character").transform.localPosition.x + 2f;
@@ -81,7 +86,6 @@ public class SceneManager : MonoBehaviour
 				}
 			}
 		}
-		
 	}
 	
 	void OnGUI ()
@@ -91,8 +95,8 @@ public class SceneManager : MonoBehaviour
 		
 		if (animalComponent.captured) {
 			if (!waiting) {
-				sceneSoundSource.clip = levelSounds[0];
-				audio.Play();
+				audio.clip = levelSounds [0];
+				audio.Play ();
 				StartCoroutine (wait ());
 			} else {
 				GUI.Box (NotificationLocation, new GUIContent ("YOU CAUGHT IT!"));
@@ -113,8 +117,8 @@ public class SceneManager : MonoBehaviour
 		} else {
 			if (characterComponent.fainted) {
 				if (!waiting) {
-					sceneSoundSource.clip = levelSounds[1];
-					audio.Play();
+					audio.clip = levelSounds [1];
+					audio.Play ();
 					StartCoroutine (wait ());
 					
 				} else {

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class LevelEditor : EditorWindow
 {	
 	GameObject SceneManagerObject;
+	GameObject InputManagerObject;
 	GameObject PainBar;
 	GameObject CaptureSequenceManager;
 	bool levelEditorEnable = true;
@@ -30,29 +31,37 @@ public class LevelEditor : EditorWindow
 			if (RenderSettings.ambientLight != Color.white) {
 				RenderSettings.ambientLight = Color.white;
 			}
-			if (SceneManagerObject == null) {
+			
+			if(GameObject.Find("InputManager") == null ){
+				InputManagerObject = new GameObject ("InputManager", typeof(InputManager));
+				InputManagerObject.transform.parent = Camera.main.transform;
+			}
+			
+			if (GameObject.Find("SceneManager") == null) {
 				SceneManagerObject = new GameObject ("SceneManager", typeof(SceneManager));
 				SceneManagerObject.transform.parent = Camera.main.transform;
-				SceneManagerObject.GetComponent<SceneManager> ().myskin = Resources.Load ("FaintedOrCaptured", typeof(GUISkin)) as GUISkin;
-				SceneManagerObject.GetComponent<SceneManager> ().levelSounds = new AudioClip[5];
-				SceneManagerObject.GetComponent<SceneManager> ().levelSounds [0] = Resources.Load ("Sounds/CAPTURED", typeof(AudioClip)) as AudioClip;
-				SceneManagerObject.GetComponent<SceneManager> ().levelSounds [1] = Resources.Load ("Sounds/GAMEOVER", typeof(AudioClip)) as AudioClip;
-				SceneManagerObject.GetComponent<SceneManager> ().levelSounds [2] = Resources.Load ("Sounds/HARDSICKLOOP", typeof(AudioClip)) as AudioClip;
-				SceneManagerObject.GetComponent<SceneManager> ().levelSounds [3] = Resources.Load ("Sounds/SOFTSICKLOOP", typeof(AudioClip)) as AudioClip;
-				SceneManagerObject.GetComponent<SceneManager> ().levelSounds [4] = Resources.Load ("Sounds/LEVEL1", typeof(AudioClip)) as AudioClip;
 				SceneManagerObject.AddComponent<AudioSource> ();
 				SceneManagerObject.GetComponent<AudioSource> ().playOnAwake = false;
 				SceneManagerObject.GetComponent<AudioSource> ().loop = true;
+				
 			}
-			if (CaptureSequenceManager == null) {
+			else{
+				SceneManagerObject = GameObject.Find("SceneManager");
+			}
+			if (GameObject.Find("CaptureSequenceManager") == null) {
 				CaptureSequenceManager = new GameObject ("CaptureSequenceManager", typeof(CaptureSequence));
 				CaptureSequenceManager.transform.parent = Camera.main.transform;
 				
 			}
+			else{
+				CaptureSequenceManager = GameObject.Find("CaptureSequenceManager");
+			}
+			
 			if (CaptureSequenceManager.renderer == null) {
 				CaptureSequenceManager.gameObject.AddComponent<MeshRenderer> ();
 				CaptureSequenceManager.renderer.material = new Material (Shader.Find ("Transparent/VertexLit"));
 			}
+			
 			if (Camera.main.GetComponentInChildren<PainIndicator> () == null) {
 				GameObject prefab = Resources.Load ("Prefabs/Stage Elements/PainIndicator", typeof(GameObject)) as GameObject;
 				if (prefab == null) {
@@ -61,6 +70,9 @@ public class LevelEditor : EditorWindow
 				PainBar = GameObject.Instantiate (prefab, new Vector3 (4.499166f, 2.033132f, 2.15f), Quaternion.identity) as GameObject;
 				PainBar.transform.parent = Camera.main.transform;
 				PainBar.transform.localPosition = new Vector3 (2.3f, 2f, 2.15f);
+			}
+			else{
+				PainBar = GameObject.FindGameObjectWithTag("pain");
 			}
 		}
 	}

@@ -8,11 +8,10 @@ public class CaptureSequence : MonoBehaviour
 	private bool inRange = false;
 	private bool animating = false;
 	private bool forward = true;
-	private Touch touch;
 	public Texture2D[] buttonTextures; //TODO need to make this platform dependent, 
 	//for now all systems will have the same image apprear
 	private int frame;
-	private RaycastHit theHit;
+	//private RaycastHit theHit;
 	
 	void Start ()
 	{
@@ -33,19 +32,18 @@ public class CaptureSequence : MonoBehaviour
 				animateButton ();
 			}
 			
-			if (Input.touchCount != 0) { // touch input detected
-				touch = Input.GetTouch (0);
+			if (InputManager.touchDetected) { // touch input detected
 				if (characterComponent.RowNumber == animalComponent.RowNumber) {
-					if (Physics.Raycast (Camera.main.ScreenPointToRay (touch.position), out theHit, 83)) {
-						Debug.Log ("I WAS TOUCHED");	
-					}
+					//if (Physics.Raycast (Camera.main.ScreenPointToRay (touch.position), out theHit, 83)) {
+					//	Debug.Log ("I WAS TOUCHED");	
+					//}
 					GameObject.Find ("Cage").renderer.enabled = true;
 					animalComponent.captured = true;
 				}
 			} else {
 			
-				if (Input.GetKeyUp ("right") && characterComponent.RowNumber == animalComponent.RowNumber) {
-					GameObject.Find ("Cage").renderer.enabled = true;
+				if (InputManager.rightKey && characterComponent.RowNumber == animalComponent.RowNumber) {
+					//GameObject.Find ("Cage").renderer.enabled = true;
 					animalComponent.captured = true;
 				}
 			}

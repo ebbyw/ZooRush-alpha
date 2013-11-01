@@ -8,14 +8,10 @@ public class Character : GameElement
 	public int RowNumber;
 	private bool Moving = false;
 	private int maxRows = 3;
-	public bool up;
-	public bool down;
 	private int runNum = 2;
 	private bool waiting = false;
 	public bool flashing = false;
 	public float xPosition;
-	private Touch touch;
-	private float dragY;
 	public float RunSpeed;
 	public float defaultRunSpeed;
 	public bool fainted = false;
@@ -33,11 +29,11 @@ public class Character : GameElement
 		defaultRunSpeed = RunSpeed;
 		xPosition = transform.localPosition.x;
 		distanceTraveled = transform.localPosition.x;
-		renderer.material = materials[0];
+		renderer.material = materials [0];
 		RowNum = RowNumber;
 		forward = true;
 		fps = 0.05f;
-		animalComponent = GameObject.FindGameObjectWithTag("animal").GetComponent<Animal>();
+		animalComponent = GameObject.FindGameObjectWithTag ("animal").GetComponent<Animal> ();
 		paused = SceneManager.scenePaused;
 	}
 	
@@ -55,22 +51,7 @@ public class Character : GameElement
 					StartCoroutine (characterFlash ());	
 				}
 				if (!Moving) {
-					down = Input.GetKey ("down");
-					up = Input.GetKey ("up");
-			
-					if (Input.touchCount != 0) { // touch input detected
-						touch = Input.GetTouch (0);
-						if (touch.position.y < Screen.height/2) {
-							up = true;
-							down = false;
-						}
-						if (touch.position.y > Screen.height/2) {
-							up = false;
-							down = true;
-						}
-					}
-
-					if (up || down) {
+					if (InputManager.upKey || InputManager.downKey) {
 						StartCoroutine (move (transform));
 					}
 				}
@@ -82,29 +63,32 @@ public class Character : GameElement
 	{
 		paused = SceneManager.scenePaused;
 		if (!waiting && !fainted && !animalComponent.captured && !paused) {
-			if(!animating){
-					StartCoroutine (ChangeMaterial (runNum, fps));
-				}
-			
-			if (runNum == 4 && forward) {
-				runNum--;
-				forward = false;
+			if (!animating) {
+				StartCoroutine (ChangeMaterial (runNum, fps));
+			}
+			RunUpdate ();
+		}
+	}
+	
+	private void RunUpdate ()
+	{
+		if (runNum == 4 && forward) {
+			runNum--;
+			forward = false;
+		} else {
+			if (runNum == 2 && !forward) {
+				runNum++;
+				forward = true;
 			} else {
-				if (runNum == 2 && !forward) {
+				if (forward) {
 					runNum++;
-					forward = true;
-				} else {
-					if (forward) {
-						runNum++;
-					}
-					if (!forward) {
-						runNum--;
-					}
+				}
+				if (!forward) {
+					runNum--;
 				}
 			}
 		}
 	}
-
 	
 	public IEnumerator characterFlash ()
 	{
@@ -131,21 +115,37 @@ public class Character : GameElement
 	public IEnumerator move (Transform transform)
 	{
 		float waitTime;
-		if (Input.touchCount != 0) { // touch input detected
+		if (InputManager.touchDetected) { // touch input detected
 			waitTime = 0.5f;
 		} else {
 			waitTime = 0.1f;
 		}
 		Moving = true;
-		if (down && (RowNumber > 1)) {
+		if (InputManager.downKey && (RowNumber > 1)) {
 			RowNumber--;
-			transform.Translate (Vector3.back * RunSpeed * Time.deltaTime);
-		} else if (up && (RowNumber < maxRows)) {
+		} else if (InputManager.upKey && (RowNumber < maxRows)) {
 			RowNumber++;
-			transform.Translate (Vector3.forward * RunSpeed * Time.deltaTime);
-			//transform.localPosition += new Vector3(0,gridSize,gridSize);
 		}
+		translate(RowNumber);
 		yield return new WaitForSeconds(waitTime);
 		Moving = false;
+	}
+	
+	private void translate (int Row)
+	{
+		Vector3 temp = transform.localPosition;
+		if (Row == 1) {// Character is in Row 1
+			temp.y = -1.5f;
+			temp.z = 0f;
+		} else {
+			if (Row == 2) {// Character is in Row 2
+				temp.y = -0.5f;
+				temp.z = 1f;
+			} else {// Character is in Row 3
+				temp.y = 0.5f;
+				temp.z = 2f;
+			}
+		}
+		transform.localPosition = temp;
 	}
 }
