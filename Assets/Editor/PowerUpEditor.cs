@@ -16,11 +16,7 @@ public class PowerUpEditor : Editor {
 		if(thisPowerUp == null){
 			thisPowerUp = target as PowerUp;
 		}
-		GUILayout.Label("Obstacle Editor:");
-		EditorGUILayout.BeginHorizontal();{
-			EditorGUILayout.LabelField("PowerUp Type");
-			thisPowerUp.PowerUpType = EditorGUILayout.Popup(thisPowerUp.PowerUpType,powerUpTypesText);
-			switch(thisPowerUp.PowerUpType){
+		switch(thisPowerUp.PowerUpType){
 			case 0: //PillBottle
 				thisPowerUp.materials[0] = Resources.Load("Materials/PowerUps/PillBottle",typeof(Material)) as Material;
 				thisPowerUp.renderer.material = thisPowerUp.materials[0];
@@ -35,17 +31,23 @@ public class PowerUpEditor : Editor {
 			default:
 				break;
 			}
+		
+		GUILayout.Label("Obstacle Editor:");
+		EditorGUILayout.BeginHorizontal();{
+			EditorGUILayout.LabelField("PowerUp Type");
+			thisPowerUp.PowerUpType = EditorGUILayout.Popup(thisPowerUp.PowerUpType,powerUpTypesText);
 			thisPowerUp.transform.localScale = defaultScale[thisPowerUp.PowerUpType];
-			thisPowerUp.enabled = false;
-			thisPowerUp.enabled = true;
+			
 		}
 		EditorGUILayout.EndHorizontal();
+		
 		EditorGUILayout.BeginHorizontal();{
 			EditorGUILayout.LabelField("Row Number: ");
 			thisPowerUp.RowNumber = EditorGUILayout.IntSlider(thisPowerUp.RowNumber,1,3);
-			thisPowerUp.enabled = false;
-			thisPowerUp.enabled = true;
 		}
 		EditorGUILayout.EndHorizontal();
+		
+		thisPowerUp.enabled = false;
+		thisPowerUp.enabled = true;
 	}
 }

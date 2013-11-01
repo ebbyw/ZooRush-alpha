@@ -8,6 +8,7 @@ public class BuildingEditor : Editor {
 	private Building thisBuilding;
 	private string[] buildingTypesText = {"Balloon Stand", "Cage1","Cage2","Cage3","Cage4","Cage5","Doctor's Office","Hot Dog Stand"};
 	private string[] buildingMaterialNames = {"BalloonStand", "Cage1","Cage2","Cage3","Cage4","Cage5","DoctorOffice1", "DoctorOffice2","HotDogsStand"};
+	
 	public override void OnInspectorGUI() {
 		if(thisBuilding == null){
 			thisBuilding = target as Building;

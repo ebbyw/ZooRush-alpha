@@ -6,10 +6,8 @@ public class CloudGenerator : MonoBehaviour {
 	private Material[] cloudmeshes = new Material[4];
 	public GameObject[] clouds;
 	private Vector3 location;
-	private bool animating;
 	
 	void Start () {
-		animating = false;
 		location = Camera.main.transform.localPosition;
 		cloudmeshes[0] = Resources.Load("Materials/StageElements/Cloud1a",typeof(Material)) as Material;
 		cloudmeshes[1] = Resources.Load("Materials/StageElements/Cloud1b",typeof(Material)) as Material;
@@ -46,26 +44,5 @@ public class CloudGenerator : MonoBehaviour {
 			
 		}
 	}
-	
-	private IEnumerator ChangeMaterial(GameObject cloud){
-		animating = true;
-		switch(cloud.renderer.material.name){
-			case "Cloud1a (Instance)":
-				cloud.renderer.material = cloudmeshes[1];
-				break;
-			case "Cloud1b (Instance)":
-				cloud.renderer.material = cloudmeshes[0];
-				break;
-			case "Cloud2a (Instance)":
-				cloud.renderer.material = cloudmeshes[3];
-				break;
-			case "Cloud2b (Instance)":
-				cloud.renderer.material = cloudmeshes[2];
-				break;
-			default:
-				break;
-			}
-		yield return new WaitForSeconds(0.1f);
-		animating = false;
-	}
+
 }

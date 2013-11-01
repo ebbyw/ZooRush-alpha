@@ -48,8 +48,8 @@ public class Building : GameElement {
 	}
 	
 	private void OnTriggerEnter( Collider other ){//detects if the Character has touched the Building
-		if(!touched && characterComponent.up){
-			characterComponent.flashing = characterComponent.up;
+		if(!touched && InputManager.upKey){
+			characterComponent.flashing = InputManager.upKey;
 			touched = true;
 			if(elementType == 6){
 				//Debug.Log("YOU TOUCHED ME!");
@@ -62,8 +62,8 @@ public class Building : GameElement {
 	}
 	
 	private void OnTriggerStay(Collider other){
-		if(!touched && characterComponent.up){
-			characterComponent.flashing = characterComponent.up;
+		if(!touched && InputManager.upKey){
+			characterComponent.flashing = InputManager.upKey;
 			touched = true;
 			if(elementType == 6){
 				//Debug.Log("YOU TOUCHED ME!");
