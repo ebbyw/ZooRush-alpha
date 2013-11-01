@@ -68,6 +68,9 @@ public class PainIndicator : MonoBehaviour
 						numberOfRedInfections++;
 					}
 				}
+				if(characterComponent.RunSpeed > 1f){
+					characterComponent.RunSpeed -= 0.5f;
+				}
 				addToPain = false;
 			}
 			

@@ -30,7 +30,7 @@ public class Animal : GameElement
 	void Awake ()
 	{
 		xPosition = transform.localPosition.x;
-		RunSpeed = 3f;
+		RunSpeed = 2.7f;
 		captured = false;
 		characterComponent = GameObject.FindGameObjectWithTag("character").GetComponent<Character>();
 	}
@@ -48,13 +48,19 @@ public class Animal : GameElement
 	
 	void FixedUpdate ()
 	{
-		
 		if (!characterComponent.fainted && !captured) {
 			transform.Translate (Vector3.right * RunSpeed * Time.deltaTime);
 			xPosition = transform.localPosition.x;
 			if (!animating) {
 				StartCoroutine (ChangeMaterial (runNum, fps));
-				if (runNum == 2 && forward) {
+				RunNumChange();
+			}
+		}
+		
+	}
+
+	private void RunNumChange(){
+		if (runNum == 2 && forward) {
 					runNum--;
 					forward = false;
 				} else {
@@ -70,10 +76,5 @@ public class Animal : GameElement
 						}
 					}
 				}
-			}
-		}
-		
 	}
-
-	
 }

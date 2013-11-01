@@ -71,6 +71,7 @@ public class Building : GameElement {
 				renderer.material = materials[1];
 				//Add Character Animation code somewhere here
 				painComponent.PainLevel = 0f;
+				characterComponent.RunSpeed = characterComponent.defaultRunSpeed;
 			}
 		}
 	}

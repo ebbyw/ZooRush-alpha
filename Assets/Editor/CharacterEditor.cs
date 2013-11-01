@@ -26,6 +26,15 @@ public class CharacterEditor : Editor {
 			thisCharacter.enabled = true;
 		}
 		EditorGUILayout.EndHorizontal();
+		
+		EditorGUILayout.BeginHorizontal();{
+			EditorGUILayout.LabelField("Run Speed: ");
+			thisCharacter.RunSpeed = EditorGUILayout.FloatField(thisCharacter.RunSpeed);
+			thisCharacter.enabled = false;
+			thisCharacter.enabled = true;
+		}
+		EditorGUILayout.EndHorizontal();
+		
 		EditorGUILayout.BeginHorizontal();{
 			EditorGUILayout.LabelField("Row Number: ");
 			thisCharacter.RowNumber = EditorGUILayout.IntSlider(thisCharacter.RowNumber,1,3);

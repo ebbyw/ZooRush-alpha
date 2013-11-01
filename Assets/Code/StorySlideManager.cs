@@ -11,6 +11,7 @@ public class StorySlideManager : MonoBehaviour
 	
 	void Start ()
 	{
+		goNext = false;
 		currentSlide = 0;
 		Object[] load = Resources.LoadAll ("Textures/Storyboard/" + directories [SceneNumber]);
 		slides = new Texture2D[load.Length];
@@ -33,7 +34,9 @@ public class StorySlideManager : MonoBehaviour
 			StartCoroutine (nextSlide ());
 		}
 		else{
-			Application.LoadLevel("Level1-Test");
+			if((currentSlide == slides.Length - 1) && goNext){
+				Application.LoadLevel("tester");
+			}
 		}
 	}
 	

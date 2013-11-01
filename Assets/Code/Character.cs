@@ -17,6 +17,7 @@ public class Character : GameElement
 	private Touch touch;
 	private float dragY;
 	public float RunSpeed;
+	public float defaultRunSpeed;
 	public bool fainted = false;
 	private bool paused;
 	
@@ -29,6 +30,7 @@ public class Character : GameElement
 	*/
 	void Start ()
 	{
+		defaultRunSpeed = RunSpeed;
 		xPosition = transform.localPosition.x;
 		distanceTraveled = transform.localPosition.x;
 		renderer.material = materials[0];

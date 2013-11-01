@@ -46,6 +46,15 @@ public class AnimalEditor : Editor {
 			thisAnimal.enabled = true;
 		}
 		EditorGUILayout.EndHorizontal();
+		
+		EditorGUILayout.BeginHorizontal();{
+			EditorGUILayout.LabelField("Run Speed: ");
+			thisAnimal.RunSpeed = EditorGUILayout.FloatField(thisAnimal.RunSpeed);
+			thisAnimal.enabled = false;
+			thisAnimal.enabled = true;
+		}
+		EditorGUILayout.EndHorizontal();
+		
 		EditorGUILayout.BeginHorizontal();{
 			EditorGUILayout.LabelField("Row Number: ");
 			thisAnimal.RowNumber = EditorGUILayout.IntSlider(thisAnimal.RowNumber,1,3);

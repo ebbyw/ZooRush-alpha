@@ -8,6 +8,7 @@ public class LevelEditor : EditorWindow
 {	
 	GameObject SceneManagerObject;
 	GameObject PainBar;
+	GameObject CaptureSequenceManager;
 	bool levelEditorEnable = true;
 	
 	[MenuItem("Zoo Rush Tools/Level Editor %l")]
@@ -33,6 +34,24 @@ public class LevelEditor : EditorWindow
 				SceneManagerObject = new GameObject ("SceneManager", typeof(SceneManager));
 				SceneManagerObject.transform.parent = Camera.main.transform;
 				SceneManagerObject.GetComponent<SceneManager> ().myskin = Resources.Load ("FaintedOrCaptured", typeof(GUISkin)) as GUISkin;
+				SceneManagerObject.GetComponent<SceneManager> ().levelSounds = new AudioClip[5];
+				SceneManagerObject.GetComponent<SceneManager> ().levelSounds [0] = Resources.Load ("Sounds/CAPTURED", typeof(AudioClip)) as AudioClip;
+				SceneManagerObject.GetComponent<SceneManager> ().levelSounds [1] = Resources.Load ("Sounds/GAMEOVER", typeof(AudioClip)) as AudioClip;
+				SceneManagerObject.GetComponent<SceneManager> ().levelSounds [2] = Resources.Load ("Sounds/HARDSICKLOOP", typeof(AudioClip)) as AudioClip;
+				SceneManagerObject.GetComponent<SceneManager> ().levelSounds [3] = Resources.Load ("Sounds/SOFTSICKLOOP", typeof(AudioClip)) as AudioClip;
+				SceneManagerObject.GetComponent<SceneManager> ().levelSounds [4] = Resources.Load ("Sounds/LEVEL1", typeof(AudioClip)) as AudioClip;
+				SceneManagerObject.AddComponent<AudioSource> ();
+				SceneManagerObject.GetComponent<AudioSource> ().playOnAwake = false;
+				SceneManagerObject.GetComponent<AudioSource> ().loop = true;
+			}
+			if (CaptureSequenceManager == null) {
+				CaptureSequenceManager = new GameObject ("CaptureSequenceManager", typeof(CaptureSequence));
+				CaptureSequenceManager.transform.parent = Camera.main.transform;
+				
+			}
+			if (CaptureSequenceManager.renderer == null) {
+				CaptureSequenceManager.gameObject.AddComponent<MeshRenderer> ();
+				CaptureSequenceManager.renderer.material = new Material (Shader.Find ("Transparent/VertexLit"));
 			}
 			if (Camera.main.GetComponentInChildren<PainIndicator> () == null) {
 				GameObject prefab = Resources.Load ("Prefabs/Stage Elements/PainIndicator", typeof(GameObject)) as GameObject;
@@ -53,6 +72,7 @@ public class LevelEditor : EditorWindow
 			levelEditorEnable = EditorGUILayout.Toggle (levelEditorEnable);
 		}
 		EditorGUILayout.EndHorizontal ();
+		
 		if (levelEditorEnable) {
 			if (GUILayout.Button ("Reset Camera Location")) {
 				Vector3 temp = GameObject.Find ("Main Camera").camera.transform.localPosition;
@@ -109,21 +129,21 @@ public class LevelEditor : EditorWindow
 				if (go.GetComponent<Building> ().buildingType == 6) {// Element is a Doctor's Office
 					temp.y = 1.933f;
 					temp.z = 5f;
-					go.GetComponent<BoxCollider>().size = new Vector3(1f,1f,3.75f);
+					go.GetComponent<BoxCollider> ().size = new Vector3 (1f, 1f, 3.75f);
 					if (go.GetComponent<AudioSource> () == null) {
 						AudioSource doctorSoundSource;
 						doctorSoundSource = go.AddComponent<AudioSource> (); 
 						doctorSoundSource.clip = Resources.Load ("Sounds/DOCTOR", typeof(AudioClip)) as AudioClip;
 						doctorSoundSource.playOnAwake = false;
 					}
-					go.transform.localScale = new Vector3(3f,3f,1f);
+					go.transform.localScale = new Vector3 (3f, 3f, 1f);
 				} else {
 					if (go.GetComponent<AudioSource> () != null) {
-						DestroyImmediate(go.GetComponent<AudioSource> ());
+						DestroyImmediate (go.GetComponent<AudioSource> ());
 					}
 					temp.y = 1.7f;
 					temp.z = 4f;
-					go.transform.localScale = new Vector3(2.5f,2.5f,1f);
+					go.transform.localScale = new Vector3 (2.5f, 2.5f, 1f);
 				}
 				go.transform.localPosition = temp;
 			}
@@ -202,7 +222,7 @@ public class LevelEditor : EditorWindow
 					}
 				} else { // element is a water bottle
 					if (go.GetComponent<AudioSource> () != null) {
-						DestroyImmediate(go.GetComponent<AudioSource> ());
+						DestroyImmediate (go.GetComponent<AudioSource> ());
 					}
 					if (go.GetComponent<PowerUp> ().RowNumber == 1) {// Element is in Row 1
 						temp.y = -2f;

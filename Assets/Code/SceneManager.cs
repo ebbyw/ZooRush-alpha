@@ -6,16 +6,23 @@ public class SceneManager : MonoBehaviour
 {
 	Animal animalComponent;
 	Character characterComponent;
+	PainIndicator painBarComponent;
 	public float startTime;
 	public float elapsedTime;
 	private int minutes;
 	private int seconds;
 	private bool animalHeadStart;
 	static public bool scenePaused;
-	AudioSource sceneSoundSource;
-	AudioClip[] levelSounds;
+	public AudioSource sceneSoundSource;
+	public AudioClip[] levelSounds;
+	public int levelNumber;
 	
-//GUI RELATED VAREIABLES
+	private int countGreenInfections;
+	private int countYellowInfections;
+	private int countRedInfections;
+	private int countWaterBottles;
+	
+//GUI RELATED VARIABLES
 	public GUISkin myskin;
 	private bool waiting = false;
 #if !UNITY_STANDALONE && !UNITY_WEBPLAYER && !UNITY_EDITOR
@@ -31,15 +38,9 @@ public class SceneManager : MonoBehaviour
 		RenderSettings.ambientLight = Color.white;
 		animalComponent = GameObject.FindGameObjectWithTag ("animal").GetComponent<Animal> ();
 		characterComponent = GameObject.FindGameObjectWithTag ("character").GetComponent<Character> ();
+		painBarComponent = GameObject.FindGameObjectWithTag ("pain").GetComponent<PainIndicator> ();
 		elapsedTime = 0f;
 		animalHeadStart = true;
-		levelSounds = new AudioClip[4];
-		levelSounds[0] = Resources.Load("Sounds/CAPTURED",typeof(AudioClip)) as AudioClip;
-		levelSounds[1] = Resources.Load("Sounds/GAMEOVER",typeof(AudioClip)) as AudioClip;
-		levelSounds[2] = Resources.Load("Sounds/HARDSICKLOOP",typeof(AudioClip)) as AudioClip;
-		levelSounds[3] = Resources.Load("Sounds/SOFTSICKLOOP",typeof(AudioClip)) as AudioClip;
-		sceneSoundSource = gameObject.AddComponent<AudioSource>();
-		sceneSoundSource.playOnAwake = false;
 		
 #if !UNITY_STANDALONE && !UNITY_WEBPLAYER && !UNITY_EDITOR
 		MainMenuButtonLocation = new Rect (Screen.width * 0.33f, Screen.height * 0.66f, Screen.width / 3, Screen.height / 6);
@@ -47,12 +48,15 @@ public class SceneManager : MonoBehaviour
 		NotificationLocation = new Rect (0, 0, Screen.width + 2, Screen.height + 2);
 #if UNITY_STANDALONE || UNITY_WEBPLAYER ||UNITY_EDITOR
 		SpaceBarNotificationLocation = new Rect (0, Screen.height * 0.66f, Screen.width, Screen.height / 6);
-		 
 #endif
 	}
 	
 	void Update ()
 	{
+		if(!scenePaused){
+			audio.Play();
+		}
+		
 		if (animalHeadStart) {
 			scenePaused = true;
 			Vector3 temp = GameObject.Find ("Main Camera").camera.transform.localPosition;
@@ -136,8 +140,7 @@ public class SceneManager : MonoBehaviour
 	
 	public void goBackToMenu ()
 	{
-		Application.LoadLevel (0);
-		//Application.Quit();
+		Application.LoadLevel ("Welcome");
 	}
 	
 	public IEnumerator wait ()
