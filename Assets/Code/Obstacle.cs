@@ -37,7 +37,7 @@ public class Obstacle : GameElement
 		
 	void OnTriggerEnter (Collider other)
 	{ //detects if the Character has touched the obstacle
-		audio.Play();
+		GameObject.Find("AudioManager").GetComponent<AudioEventHandler>().playInfection();
 		painComponent.obstacleType = elementType;
 		StartCoroutine (itemFlash ());
 		characterComponent.flashing = true;

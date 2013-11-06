@@ -4,7 +4,6 @@ using System.Collections;
 public class PainIndicator : MonoBehaviour
 {
 	Character characterComponent;
-	Animal animalComponent;
 	TextMesh painNumber;
 	public float PainLevel = 0f;
 	static public bool Crisis = false;
@@ -34,7 +33,6 @@ public class PainIndicator : MonoBehaviour
 	{
 		//animalComponent = GameObject.FindGameObjectWithTag ("animal").GetComponent<Animal> ();
 		characterComponent = GameObject.FindGameObjectWithTag ("character").GetComponent<Character> ();
-		animalComponent = GameObject.FindGameObjectWithTag ("animal").GetComponent<Animal> ();
 		PainBars [0] = GameObject.Find ("Pain1");
 		PainBars [1] = GameObject.Find ("Pain2");
 		PainBars [2] = GameObject.Find ("Pain3");
@@ -47,7 +45,7 @@ public class PainIndicator : MonoBehaviour
 	
 	void FixedUpdate ()
 	{
-		if (!SceneManager.scenePaused && characterComponent.xPosition >= 1.4f && !animalComponent.captured) { // if our character is moving
+		if (!SceneManager.scenePaused && characterComponent.xPosition >= 1.4f && !Animal.captured) { // if our character is moving
 			if (subtractFromPain) { //addToHealthBar has been altered by the PowerUp class
 				PainLevel -= powerUpArray [powerUpType];
 				if (powerUpType == 0) {
@@ -129,6 +127,11 @@ public class PainIndicator : MonoBehaviour
 				PainBars [4].renderer.enabled = false;
 				Crisis = false;
 			}
+			
+			if(Crisis){
+				
+			}
+			
 		}
 	}
 	

@@ -1,8 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Code/CaptureSequence.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Code/AudioEventHandler.cs">
     <Files>
-      <File FileName="Assets/Code/CaptureSequence.cs" Line="124" Column="3" />
+      <File FileName="Assets/Code/AudioEventHandler.cs" Line="103" Column="51" />
+      <File FileName="Assets/Code/SceneManager.cs" Line="41" Column="28" />
+      <File FileName="Assets/Editor/LevelEditor.cs" Line="225" Column="42" />
+      <File FileName="Assets/Code/Obstacle.cs" Line="40" Column="3" />
+      <File FileName="Assets/Code/Building.cs" Line="63" Column="5" />
+      <File FileName="Assets/Code/PowerUp.cs" Line="38" Column="78" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -10,7 +15,7 @@
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Code" expanded="True">
-                <Node name="CaptureSequence.cs" selected="True" />
+                <Node name="AudioEventHandler.cs" selected="True" />
               </Node>
             </Node>
           </Node>

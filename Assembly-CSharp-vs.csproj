@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Code\Animal.cs" />
+     <Compile Include="Assets\Code\AudioEventHandler.cs" />
      <Compile Include="Assets\Code\Building.cs" />
      <Compile Include="Assets\Code\CaptureSequence.cs" />
      <Compile Include="Assets\Code\Character.cs" />

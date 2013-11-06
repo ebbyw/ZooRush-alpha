@@ -8,6 +8,7 @@ public class LevelEditor : EditorWindow
 {	
 	GameObject SceneManagerObject;
 	GameObject InputManagerObject;
+	GameObject AudioManagerObject;
 	GameObject PainBar;
 	GameObject CaptureSequenceManager;
 	bool levelEditorEnable = true;
@@ -32,6 +33,13 @@ public class LevelEditor : EditorWindow
 				RenderSettings.ambientLight = Color.white;
 			}
 			
+			if(GameObject.Find("AudioManager") == null ){
+				AudioManagerObject = new GameObject ("AudioManager", typeof(AudioEventHandler));
+				AudioSource audioSource = AudioManagerObject.AddComponent<AudioSource>();
+				audioSource.playOnAwake = false;
+				AudioManagerObject.transform.parent = Camera.main.transform;
+			}
+			
 			if(GameObject.Find("InputManager") == null ){
 				InputManagerObject = new GameObject ("InputManager", typeof(InputManager));
 				InputManagerObject.transform.parent = Camera.main.transform;
@@ -40,14 +48,11 @@ public class LevelEditor : EditorWindow
 			if (GameObject.Find("SceneManager") == null) {
 				SceneManagerObject = new GameObject ("SceneManager", typeof(SceneManager));
 				SceneManagerObject.transform.parent = Camera.main.transform;
-				SceneManagerObject.AddComponent<AudioSource> ();
-				SceneManagerObject.GetComponent<AudioSource> ().playOnAwake = false;
-				SceneManagerObject.GetComponent<AudioSource> ().loop = true;
-				
 			}
 			else{
 				SceneManagerObject = GameObject.Find("SceneManager");
 			}
+			
 			if (GameObject.Find("CaptureSequenceManager") == null) {
 				CaptureSequenceManager = new GameObject ("CaptureSequenceManager", typeof(CaptureSequence));
 				CaptureSequenceManager.transform.parent = Camera.main.transform;
@@ -142,17 +147,8 @@ public class LevelEditor : EditorWindow
 					temp.y = 1.933f;
 					temp.z = 5f;
 					go.GetComponent<BoxCollider> ().size = new Vector3 (1f, 1f, 3.75f);
-					if (go.GetComponent<AudioSource> () == null) {
-						AudioSource doctorSoundSource;
-						doctorSoundSource = go.AddComponent<AudioSource> (); 
-						doctorSoundSource.clip = Resources.Load ("Sounds/DOCTOR", typeof(AudioClip)) as AudioClip;
-						doctorSoundSource.playOnAwake = false;
-					}
 					go.transform.localScale = new Vector3 (3f, 3f, 1f);
 				} else {
-					if (go.GetComponent<AudioSource> () != null) {
-						DestroyImmediate (go.GetComponent<AudioSource> ());
-					}
 					temp.y = 1.7f;
 					temp.z = 4f;
 					go.transform.localScale = new Vector3 (2.5f, 2.5f, 1f);
@@ -214,12 +210,6 @@ public class LevelEditor : EditorWindow
 				go.tag = "powerUp";
 				Vector3 temp = go.transform.localPosition;
 				if (go.GetComponent<PowerUp> ().PowerUpType == 0) {//element is a pill bottle
-					if (go.GetComponent<AudioSource> () == null) {
-						AudioSource pillBottleSoundSource;
-						pillBottleSoundSource = go.AddComponent<AudioSource> (); 
-						pillBottleSoundSource.clip = Resources.Load ("Sounds/PILL", typeof(AudioClip)) as AudioClip;
-						pillBottleSoundSource.playOnAwake = false;
-					}
 					if (go.GetComponent<PowerUp> ().RowNumber == 1) {// Element is in Row 1
 						temp.y = -2.125f;
 						temp.z = 0.5f;
@@ -233,9 +223,6 @@ public class LevelEditor : EditorWindow
 						}
 					}
 				} else { // element is a water bottle
-					if (go.GetComponent<AudioSource> () != null) {
-						DestroyImmediate (go.GetComponent<AudioSource> ());
-					}
 					if (go.GetComponent<PowerUp> ().RowNumber == 1) {// Element is in Row 1
 						temp.y = -2f;
 						temp.z = 0.5f;

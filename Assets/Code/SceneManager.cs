@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class SceneManager : MonoBehaviour
 {
-	Animal animalComponent;
 	Character characterComponent;
 	//PainIndicator painBarComponent;
 	public float startTime;
@@ -12,9 +11,10 @@ public class SceneManager : MonoBehaviour
 	private int minutes;
 	private int seconds;
 	private bool animalHeadStart;
-	static public bool scenePaused;
-	public AudioClip[] levelSounds;
-	public int levelNumber;
+	public static bool scenePaused;
+	public static bool characterFainted;
+	public int lvlNum;
+	public static int levelNumber;
 	private int countGreenInfections;
 	private int countYellowInfections;
 	private int countRedInfections;
@@ -22,7 +22,6 @@ public class SceneManager : MonoBehaviour
 	
 //GUI RELATED VARIABLES
 	public GUISkin myskin;
-	private bool waiting = false;
 #if !UNITY_STANDALONE && !UNITY_WEBPLAYER && !UNITY_EDITOR
 	private Rect MainMenuButtonLocation;
 #endif
@@ -31,11 +30,17 @@ public class SceneManager : MonoBehaviour
 #endif
 	private Rect NotificationLocation;
 	
+	void Awake(){
+		levelNumber = lvlNum;
+		characterFainted = false;
+	}
+	
 	void Start ()
 	{
+		levelNumber = lvlNum;
+		characterFainted = false;
 		startTime = Time.time;
 		RenderSettings.ambientLight = Color.white;
-		animalComponent = GameObject.FindGameObjectWithTag ("animal").GetComponent<Animal> ();
 		characterComponent = GameObject.FindGameObjectWithTag ("character").GetComponent<Character> ();
 		//painBarComponent = GameObject.FindGameObjectWithTag ("pain").GetComponent<PainIndicator> ();
 		elapsedTime = 0f;
@@ -49,20 +54,10 @@ public class SceneManager : MonoBehaviour
 		SpaceBarNotificationLocation = new Rect (0, Screen.height * 0.66f, Screen.width, Screen.height / 6);
 #endif
 		myskin = Resources.Load ("FaintedOrCaptured", typeof(GUISkin)) as GUISkin;
-		levelSounds = new AudioClip[5];
-		levelSounds [0] = Resources.Load ("Sounds/CAPTURED", typeof(AudioClip)) as AudioClip;
-		levelSounds [1] = Resources.Load ("Sounds/GAMEOVER", typeof(AudioClip)) as AudioClip;
-		levelSounds [2] = Resources.Load ("Sounds/HARDSICKLOOP", typeof(AudioClip)) as AudioClip;
-		levelSounds [3] = Resources.Load ("Sounds/SOFTSICKLOOP", typeof(AudioClip)) as AudioClip;
-		levelSounds [4] = Resources.Load ("Sounds/LEVEL1", typeof(AudioClip)) as AudioClip;
 	}
 	
 	void Update ()
 	{
-		if (!scenePaused) {
-			audio.Play ();
-		}
-		
 		if (animalHeadStart) {
 			scenePaused = true;
 			Vector3 temp = GameObject.Find ("Main Camera").camera.transform.localPosition;
@@ -93,13 +88,8 @@ public class SceneManager : MonoBehaviour
 		GUI.skin = myskin;
 		GUI.Box (new Rect (0.1f, 0.1f, 0.5f * Screen.width, 0.1f * Screen.height), new GUIContent ("Time: " + ((minutes < 10) ? "0" : "") + minutes + ":" + ((seconds < 10) ? "0" : "") + seconds));
 		
-		if (animalComponent.captured) {
-			if (!waiting) {
-				audio.clip = levelSounds [0];
-				audio.Play ();
-				StartCoroutine (wait ());
-			} else {
-				GUI.Box (NotificationLocation, new GUIContent ("YOU CAUGHT IT!"));
+		if (Animal.captured) {
+			GUI.Box (NotificationLocation, new GUIContent ("YOU CAUGHT IT!"));
 #if UNITY_STANDALONE || UNITY_WEBPLAYER ||UNITY_EDITOR
 		GUI.Label (SpaceBarNotificationLocation, "(Press Space Bar)");
 		if(Input.GetKeyUp ("space")){
@@ -108,21 +98,15 @@ public class SceneManager : MonoBehaviour
 #endif	
 
 #if !UNITY_STANDALONE && !UNITY_WEBPLAYER && !UNITY_EDITOR
-				GUI.SetNextControlName ("Main Menu");
-				if (GUI.Button (MainMenuButtonLocation, "Quit"/*"Main Menu"*/)) {
-					goBackToMenu ();
-				}
-#endif
+			GUI.SetNextControlName ("Main Menu");
+			if (GUI.Button (MainMenuButtonLocation, "Quit"/*"Main Menu"*/)) {
+				goBackToMenu ();
 			}
+#endif
 		} else {
 			if (characterComponent.fainted) {
-				if (!waiting) {
-					audio.clip = levelSounds [1];
-					audio.Play ();
-					StartCoroutine (wait ());
-					
-				} else {
-					GUI.Box (NotificationLocation, new GUIContent ("YOU FAINTED!"));
+				characterFainted = true;
+				GUI.Box (NotificationLocation, new GUIContent ("YOU FAINTED!"));
 #if UNITY_STANDALONE || UNITY_WEBPLAYER ||UNITY_EDITOR
 		GUI.Label (SpaceBarNotificationLocation, "(Press Space Bar)");
 		if(Input.GetKeyUp ("space")){
@@ -131,12 +115,12 @@ public class SceneManager : MonoBehaviour
 #endif	
 					
 #if !UNITY_STANDALONE && !UNITY_WEBPLAYER && !UNITY_EDITOR
-					GUI.SetNextControlName ("Main Menu");
-					if (GUI.Button (MainMenuButtonLocation, "Quit"/*"Main Menu"*/)) {
-						goBackToMenu ();
-					}
-#endif
+				GUI.SetNextControlName ("Main Menu");
+				if (GUI.Button (MainMenuButtonLocation, "Quit"/*"Main Menu"*/)) {
+					goBackToMenu ();
 				}
+#endif
+				
 			}
 		}
 		
@@ -147,11 +131,6 @@ public class SceneManager : MonoBehaviour
 		Application.LoadLevel ("Welcome");
 	}
 	
-	public IEnumerator wait ()
-	{
-		yield return new WaitForSeconds(1f);
-		waiting = true;
-	}
 	
 	public void addFirstToLast ()
 	{
