@@ -39,7 +39,7 @@ public class Character : GameElement
 	
 	public void FixedUpdate ()
 	{ // All math related functions will occur under Fixed Update in order to insure synchronization and consistency
-		if (!fainted && !animalComponent.captured) {
+		if (!fainted && !Animal.captured) {
 			if (paused) {
 				GameObject.Find ("SceneManager").GetComponent<SceneManager> ().startTime = Time.time;
 			} else {
@@ -62,7 +62,7 @@ public class Character : GameElement
 	void Update ()
 	{
 		paused = SceneManager.scenePaused;
-		if (!waiting && !fainted && !animalComponent.captured && !paused) {
+		if (!waiting && !fainted && !Animal.captured && !paused) {
 			if (!animating) {
 				StartCoroutine (ChangeMaterial (runNum, fps));
 			}

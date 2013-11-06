@@ -50,6 +50,7 @@
      <Compile Include="Assets\Editor\LevelEditor.cs" />
      <Compile Include="Assets\Editor\ObstacleEditor.cs" />
      <Compile Include="Assets\Editor\PowerUpEditor.cs" />
+     <Compile Include="Assets\Editor\SceneManagerEditor.cs" />
  <Reference Include="\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEditor.Graphs">
  <HintPath>\Applications\Unity\Unity.app\Contents\Frameworks\Managed\UnityEditor.Graphs.dll</HintPath>
  </Reference>

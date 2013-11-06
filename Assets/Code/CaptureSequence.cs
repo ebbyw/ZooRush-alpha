@@ -69,14 +69,14 @@ public class CaptureSequence : MonoBehaviour
 					//	Debug.Log ("I WAS TOUCHED");	
 					//}
 					netThrowAnimation ();
-					animalComponent.captured = true;
+					Animal.captured = true;
 				}
 			} else {
 			
 				if (InputManager.rightKey && characterComponent.RowNumber == animalComponent.RowNumber) {
 					//GameObject.Find ("Cage").renderer.enabled = true;
 					netThrowAnimation ();
-					animalComponent.captured = true;
+					Animal.captured = true;
 				}
 			}
 		}

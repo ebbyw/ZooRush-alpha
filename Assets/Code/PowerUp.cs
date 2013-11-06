@@ -35,7 +35,7 @@ public class PowerUp : GameElement
 		
 	void OnTriggerEnter( Collider other ){ //detects if the Character has touched the PowerUp
 		if(PowerUpType == 0){//Pill Bottle
-			audio.Play();
+			GameObject.Find("AudioManager").GetComponent<AudioEventHandler>().playPill();
 		}
 		painComponent.powerUpType = elementType;
 		StartCoroutine (itemFlash ());

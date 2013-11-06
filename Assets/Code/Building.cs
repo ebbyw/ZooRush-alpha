@@ -48,28 +48,21 @@ public class Building : GameElement {
 	}
 	
 	private void OnTriggerEnter( Collider other ){//detects if the Character has touched the Building
-		if(!touched && InputManager.upKey){
-			characterComponent.flashing = InputManager.upKey;
-			touched = true;
-			if(elementType == 6){
-				//Debug.Log("YOU TOUCHED ME!");
-				audio.Play();
-				renderer.material = materials[1];
-				//Add Character Animation code somewhere here
-				painComponent.PainLevel = 0f;
-			}
-		}
+		BuildingTouched();
 	}
 	
 	private void OnTriggerStay(Collider other){
+		BuildingTouched();
+	}
+	
+	private void BuildingTouched(){
 		if(!touched && InputManager.upKey){
 			characterComponent.flashing = InputManager.upKey;
 			touched = true;
 			if(elementType == 6){
-				//Debug.Log("YOU TOUCHED ME!");
-				audio.Play();
+				GameObject.Find("AudioManager").GetComponent<AudioEventHandler>().playDoctor();
 				renderer.material = materials[1];
-				//Add Character Animation code somewhere here
+				//Add Character Animation or reaction somewhere here
 				painComponent.PainLevel = 0f;
 				characterComponent.RunSpeed = characterComponent.defaultRunSpeed;
 			}

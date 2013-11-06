@@ -4,7 +4,7 @@ using System.Collections;
 public class Animal : GameElement
 {
 	public int animalType;
-	public bool captured;
+	public static bool captured;
 	public int RowNumber;
 	public float xPosition;
 	private int runNum = 1;
