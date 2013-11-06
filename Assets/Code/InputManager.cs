@@ -35,7 +35,7 @@ public class InputManager : MonoBehaviour
 				downKey = true;
 			}
 		}
-		DisplayValues();
+		//DisplayValues();
 	}
 	
 	void DisplayValues(){
