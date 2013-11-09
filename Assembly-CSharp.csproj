@@ -54,6 +54,7 @@
      <Compile Include="Assets\Code\GameElement.cs" />
      <Compile Include="Assets\Code\InputManager.cs" />
      <Compile Include="Assets\Code\Obstacle.cs" />
+     <Compile Include="Assets\Code\OptionsMenu.cs" />
      <Compile Include="Assets\Code\PainIndicator.cs" />
      <Compile Include="Assets\Code\PowerUp.cs" />
      <Compile Include="Assets\Code\SceneManager.cs" />

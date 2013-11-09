@@ -26,7 +26,9 @@ public class AudioEventHandler : MonoBehaviour
 		AudioClip levelMusic;
 		audioClips.TryGetValue (levelMusicNames [SceneManager.levelNumber], out levelMusic);
 		audio.clip = levelMusic;
-		audio.Play ();
+		if(OptionsMenu.bgMusicOn){
+			audio.Play ();
+		}
 		
 		track2 = new GameObject ("Track 2", typeof(AudioSource));
 		track2.audio.playOnAwake = false;
@@ -48,7 +50,7 @@ public class AudioEventHandler : MonoBehaviour
 	void Update ()
 	{
 		if (PainIndicator.Crisis && !SceneManager.characterFainted) {
-			if (!track4.audio.isPlaying) {
+			if (!track4.audio.isPlaying && OptionsMenu.SoundOn) {
 				audio.volume = 0.7f;
 				AudioClip crisisMusic;
 				audioClips.TryGetValue ("HARDSICKLOOP", out crisisMusic);
@@ -61,8 +63,10 @@ public class AudioEventHandler : MonoBehaviour
 			track4.audio.Stop ();
 		}
 		if (SceneManager.characterFainted) {
-			if (!track4.audio.isPlaying) {
-				if (!gameOverPlayed) {
+				if (!gameOverPlayed && OptionsMenu.bgMusicOn) {
+					track2.audio.Stop(); // Handles Infection and PowerUp Sounds
+					track3.audio.Stop(); // Handles Building Sounds
+					track4.audio.Stop(); // Handles Crisis and Situational Sounds
 					AudioClip gameOver;
 					audioClips.TryGetValue ("GAMEOVER", out gameOver);
 					audio.loop = false;
@@ -70,13 +74,12 @@ public class AudioEventHandler : MonoBehaviour
 					audio.Play ();
 					gameOverPlayed = true;
 				}
-			}
 		}
 	}
 	
 	public void playInfection ()
 	{
-		if (!track2.audio.isPlaying) {
+		if (!track2.audio.isPlaying && OptionsMenu.SoundOn) {
 			AudioClip infectionSound;
 			audioClips.TryGetValue ("INFECTION", out infectionSound);
 			track2.audio.clip = infectionSound;
@@ -87,7 +90,7 @@ public class AudioEventHandler : MonoBehaviour
 	
 	public void playDoctor()
 	{
-		if (!track3.audio.isPlaying) {
+		if (!track3.audio.isPlaying && OptionsMenu.SoundOn) {
 			AudioClip doctorSound;
 			audioClips.TryGetValue ("DOCTOR", out doctorSound);
 			track3.audio.clip = doctorSound;
@@ -98,7 +101,7 @@ public class AudioEventHandler : MonoBehaviour
 	
 	public void playPill()
 	{
-		if (!track2.audio.isPlaying) {
+		if (!track2.audio.isPlaying && OptionsMenu.SoundOn) {
 			AudioClip pillSound;
 			audioClips.TryGetValue ("PILL", out pillSound);
 			track2.audio.clip = pillSound;
