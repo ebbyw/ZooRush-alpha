@@ -1,83 +1,146 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class StartMenu : MonoBehaviour {
+public class StartMenu : MonoBehaviour
+{
 	
-	public GUISkin myskin;
-	public Texture2D background;
-	private bool down = false;
+	GameObject playButton;
+	GameObject optionsButton;
+	GameObject spaceBarLabel;
+	GameObject[] buttonArray;
+	
+	string[] sceneDestination = {"tester","Options"};
+	
+	private bool flashing = false;
 	private bool up = false;
-	private bool waiting =false;
-	int currentSelection = 0;
+	private bool down = false;
+	private bool spaceBar = false;
+	int currentButton = 0;
+	/** Values for Current Button
+	 *  0  - Play
+	 *  1  - Options
+	 */ 
 	
-	string[] menuOptions = {
-		"Play",
-		"Options",
-	};
-	
-	// Use this for initialization
-	void OnGUI () {
-		
-		if(background != null){
-			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), background);
-		}
-		
-		GUI.skin = myskin;
-		float buttonWidth = Screen.width/3;
-		float buttonHeight = Screen.height/10;
-		float buttonX = (Screen.width - buttonWidth)/2;
-		
-		GUI.Label (new Rect(0,0.30f*Screen.height,Screen.width,buttonHeight), "Zoo Escape");
-
-#if UNITY_STANDALONE || UNITY_WEBPLAYER ||UNITY_EDITOR
-		GUI.Button (new Rect(0,0.8f*Screen.height,Screen.width,buttonHeight), "(Press Space Bar)");
-#endif		
-
-		GUI.SetNextControlName("Play");
-		if(GUI.Button (new Rect( buttonX ,(Screen.height/2),buttonWidth,buttonHeight), "Play Game")){
-			Application.LoadLevel(1);
-		}
-		
-		GUI.SetNextControlName("Options");
-		if(GUI.Button (new Rect( buttonX ,0.60f*Screen.height,buttonWidth,buttonHeight), "Options")){
-			Debug.Log ("Options");
-		}
-		
-#if UNITY_STANDALONE || UNITY_WEBPLAYER || UNITY_EDITOR
-		GUI.FocusControl(menuOptions[currentSelection]);
-#endif
-	}
-	
-	void Update(){
-		if(!waiting){
-			
-		down = Input.GetKey ("down");
-		up = Input.GetKey ("up");
-		if( down ){
-			if(currentSelection == (int) menuOptions.Length-1 ){
-				currentSelection = 0;
-			}
-			else{
-				currentSelection++;
-			}
-		}
-		if( up ){
-			if(currentSelection == 0 ){
-				currentSelection = (int) menuOptions.Length -1;
-			}
-			else{
-				currentSelection--;
-			}
-		}
-			StartCoroutine(waitBetweenKeyStrokes(0.1f));
-		}
-	}
-	
-	public IEnumerator waitBetweenKeyStrokes (float time)
+	void Start ()
 	{
-		waiting = true;
-		yield return new WaitForSeconds(time);
-		waiting = false;
+		if (playButton == null) {
+			playButton = GameObject.Find ("Play");
+		}
+		if (optionsButton == null) {
+			optionsButton = GameObject.Find ("Options");
+		}
+		if (spaceBarLabel == null) {
+			spaceBarLabel = GameObject.Find ("Play");
+		}
+		buttonArray = new GameObject[] {playButton, optionsButton};
+		
+#if !UNITY_STANDALONE && !UNITY_WEBPLAYER && !UNITY_EDITOR
+		spaceBarLabel.renderer.enabled = false;
+#endif
+		
+	}
+	
+	void FixedUpdate ()
+	{	
+		if (up) {
+			if (currentButton > 0) {
+				activateButton (currentButton - 1);
+				currentButton--;
+			}
+		}
+		if (down) {
+			if (currentButton < 1) {
+				activateButton (currentButton + 1);
+				currentButton ++;
+			}
+		}
+		if (spaceBar) {
+			StartCoroutine (clickedButton (buttonArray [currentButton]));
+			Application.LoadLevel (sceneDestination [currentButton]);
+		}
+		if (Input.mousePresent) {
+			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+			RaycastHit touched;
+			if (Physics.Raycast (ray, out touched, 100f)) {
+				if (touched.collider.gameObject.Equals (playButton)) {
+					if (!flashing) {
+						currentButton = 0;
+						activateButton (currentButton);
+					}
+					if (Input.GetMouseButtonUp (0)) {
+						StartCoroutine (clickedButton (playButton));
+						Application.LoadLevel (sceneDestination [currentButton]);
+					}
+				} 
+				if (touched.collider.gameObject.Equals (optionsButton)) {
+					if (!flashing) {
+						currentButton = 1;
+						activateButton (currentButton);
+					}
+					if (Input.GetMouseButtonUp (0)) {
+						StartCoroutine (clickedButton (optionsButton));
+						Application.LoadLevel (sceneDestination [currentButton]);
+					}
+				}
+			}
+		}
+		if (Input.touchCount > 0) {
+			Ray ray = Camera.main.ScreenPointToRay (Input.GetTouch (0).deltaPosition);
+			RaycastHit touched;
+			if (Physics.Raycast (ray, out touched, 100f)) {
+				if (touched.collider.gameObject.Equals (playButton)) {
+					if (!flashing) {
+						currentButton = 0;
+						StartCoroutine (clickedButton (playButton));
+						Application.LoadLevel (sceneDestination [currentButton]);
+					} 
+					if (touched.collider.gameObject.Equals (optionsButton)) {
+						if (!flashing) {
+							currentButton = 1;
+							StartCoroutine (clickedButton (optionsButton));
+							Application.LoadLevel (sceneDestination [currentButton]);
+						}
+					}
+				}
+			}
+
+		}
+	}
+	
+	void Update ()
+	{
+		up = Input.GetKeyUp ("up");
+		down = Input.GetKeyUp ("down");
+		spaceBar = Input.GetKeyUp ("space");
+	}
+	
+	private IEnumerator clickedButton (GameObject button)
+	{
+		flashing = true;
+		TextMesh text = button.GetComponent<TextMesh> ();
+		text.color = Color.yellow;
+		yield return new WaitForSeconds(0.1f);
+		text.color = Color.white;
+		yield return new WaitForSeconds(0.1f);
+		text.color = Color.yellow;
+		yield return new WaitForSeconds(0.1f);
+		text.color = Color.white;
+		yield return new WaitForSeconds(0.1f);
+		text.color = Color.yellow;
+		flashing = false;
+	}
+	
+	private void activateButton (int buttonIndex)
+	{
+		GameObject[] buttonArray = {playButton, optionsButton};
+		TextMesh[] textMeshArray = {buttonArray [0].GetComponent<TextMesh> (), 
+								   buttonArray [1].GetComponent<TextMesh> ()};
+		textMeshArray [buttonIndex].color = Color.yellow;
+		for (int i = 0; i < buttonArray.Length; i++) {
+			if (i != buttonIndex) {
+				textMeshArray [i].color = Color.white;
+			}
+		}
 	}
 
 }

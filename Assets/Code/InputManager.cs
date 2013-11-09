@@ -24,22 +24,27 @@ public class InputManager : MonoBehaviour
 		if (Input.touchCount > 0) {
 			touchDetected = true;
 			touch = Input.GetTouch (0);
-		}
-		if (touchDetected) {
 			if (touch.position.y < Screen.height / 2) {
-				upKey = true;
-				downKey = false;
+				upKey = touchDetected;
+				downKey = !touchDetected;
 			}
 			if (touch.position.y > Screen.height / 2) {
-				upKey = false;
-				downKey = true;
+				upKey = !touchDetected;
+				downKey = touchDetected;
 			}
+		} else {
+			touchDetected = false;
+			upKey = Input.GetKeyUp ("up");
+			downKey = Input.GetKeyUp ("down");
 		}
+		
+		
 		//DisplayValues();
 	}
 	
-	void DisplayValues(){
-		Debug.Log("UpKey:" + upKey + "\n" +
+	void DisplayValues ()
+	{
+		Debug.Log ("UpKey:" + upKey + "\n" +
 				  "DownKey:" + downKey + "\n" +
 				  "RightKey:" + rightKey + "\n" +
 				  "SpaceKey:" + spaceBar + "\n" +

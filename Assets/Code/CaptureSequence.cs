@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CaptureSequence : MonoBehaviour
 {
+	private GameObject animalPointer;
+	private GameObject characterPointer;
 	Animal animalComponent;
 	Character characterComponent;
 	private bool inRange = false;
@@ -22,8 +24,10 @@ public class CaptureSequence : MonoBehaviour
 	
 	void Start ()
 	{
-		animalComponent = GameObject.FindGameObjectWithTag ("animal").GetComponent<Animal> ();
-		characterComponent = GameObject.FindGameObjectWithTag ("character").GetComponent<Character> ();
+		animalPointer = GameObject.FindGameObjectWithTag ("animal");
+		characterPointer = GameObject.FindGameObjectWithTag ("character");
+		animalComponent = animalPointer.GetComponent<Animal> ();
+		characterComponent = characterPointer.GetComponent<Character> ();
 		buttonTextures = new Texture2D[7];
 		for (int i = 0; i < buttonTextures.Length; i++) {
 			buttonTextures [i] = Resources.Load ("Textures/StageElements/RightButton" + i, typeof(Texture2D)) as Texture2D;
@@ -37,7 +41,7 @@ public class CaptureSequence : MonoBehaviour
 		DestroyImmediate (net.collider);
 		DestroyImmediate (net.rigidbody);
 		net.name = "Net";
-		net.transform.parent = GameObject.FindGameObjectWithTag ("character").transform; // makes the net a child of the character
+		net.transform.parent = Camera.main.transform; // makes the net a child of the character
 		net.renderer.material.mainTexture = netTex [0];
 		net.renderer.material.shader = Shader.Find ("Transparent/VertexLit");
 		net.transform.localPosition = new Vector3 (0, 0, 0);
@@ -120,8 +124,18 @@ public class CaptureSequence : MonoBehaviour
 	{
 		if (!net.renderer.enabled) {
 			net.renderer.enabled = true;
+			net.transform.position = animalPointer.transform.position;
+			//Movement Sequence
+			if(net.transform.position.x < animalPointer.transform.position.x){
+				Debug.Log ("I'm BEHIND!");
+				net.transform.Translate(Vector3.right*0.1f*Time.time);
+			}
+			else{
+				Debug.Log("I'm INFRONT!");
+			}
 		}
 		
 	}
+	
 	
 }
