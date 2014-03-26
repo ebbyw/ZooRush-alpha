@@ -85,7 +85,7 @@ public class StartMenu : MonoBehaviour
 			}
 		}
 		if (Input.touchCount > 0) {
-			Ray ray = Camera.main.ScreenPointToRay (Input.GetTouch (0).deltaPosition);
+			Ray ray = Camera.main.ScreenPointToRay (Input.GetTouch (0).position);
 			RaycastHit touched;
 			if (Physics.Raycast (ray, out touched, 100f)) {
 				if (touched.collider.gameObject.Equals (playButton)) {
